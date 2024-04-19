@@ -1,13 +1,20 @@
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import App from "../App";
-import Home from "../pages/Home";
-import Chat from "../pages/Chat";
-import Story from "../pages/Story";
+import { lazy, Suspense } from "react";
+import LayoutLoader from "../components/loaders/LayoutLoader";
+
+const Home = lazy(() => import("../pages/Home"));
+const Chat = lazy(() => import("../pages/Chat"));
+const Story = lazy(() => import("../pages/Story"));
 
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <App />,
+    element: (
+      <Suspense fallback={<LayoutLoader />}>
+        <App />
+      </Suspense>
+    ),
     children: [
       {
         path: "/",

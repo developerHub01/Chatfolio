@@ -1,9 +1,9 @@
 import { Outlet } from "react-router-dom";
-import Sidebar from "./components/Specific/Sidebar";
+import Sidebar from "./components/specific/sidebars/Sidebar";
 
 const App = () => {
   return (
-    <div className="h-screen flex bg-red-500">
+    <div className="h-screen flex">
       <Sidebar />
       <div className="w-full">
         <Outlet />
