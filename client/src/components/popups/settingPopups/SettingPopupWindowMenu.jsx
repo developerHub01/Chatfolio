@@ -1,3 +1,4 @@
+import { memo } from "react";
 import {
   Button,
   Dropdown,
@@ -6,11 +7,10 @@ import {
   DropdownTrigger,
 } from "@nextui-org/react";
 import { FiMenu as MenuIcon } from "react-icons/fi";
-import { memo } from "react";
 
-const BigPopUpWindowMenu = ({ buttonDataList }) => {
+const BigPopupWindowMenu = ({ buttonDataList }) => {
   return (
-    <Dropdown size="sm">
+    <Dropdown size="sm" className="">
       <DropdownTrigger>
         <Button
           isIconOnly
@@ -23,7 +23,12 @@ const BigPopUpWindowMenu = ({ buttonDataList }) => {
       </DropdownTrigger>
       <DropdownMenu aria-label="details-menu">
         {buttonDataList.map(({ text, Icon }) => (
-          <DropdownItem key={text} startContent={Icon} className="text-xl" color="primary">
+          <DropdownItem
+            key={text}
+            startContent={Icon}
+            className="text-xl"
+            color="primary"
+          >
             {text}
           </DropdownItem>
         ))}
@@ -32,4 +37,4 @@ const BigPopUpWindowMenu = ({ buttonDataList }) => {
   );
 };
 
-export default memo(BigPopUpWindowMenu);
+export default memo(BigPopupWindowMenu);

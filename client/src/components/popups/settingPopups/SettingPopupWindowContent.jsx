@@ -542,7 +542,7 @@ const P = () => {
   );
 };
 
-const BigPopUpWindowContent = () => {
+const BigPopupWindowContent = () => {
   return (
     <div className="w-full h-full p-4 overflow-hidden">
       <div className="w-full h-full px-2 py-5 overflow-y-auto p-5">
@@ -552,4 +552,4 @@ const BigPopUpWindowContent = () => {
   );
 };
 
-export default memo(BigPopUpWindowContent);
+export default memo(BigPopupWindowContent);

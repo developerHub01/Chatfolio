@@ -1,4 +1,4 @@
-import BigPopUpWindowContent from "./BigPopUpWindowContent";
+import { Suspense, memo } from "react";
 import { LuLaptop as GeneralIcon } from "react-icons/lu";
 import {
   IoChatboxEllipsesOutline as ChatIcon,
@@ -10,8 +10,9 @@ import { MdOutlineEdit as PersonalizationIcon } from "react-icons/md";
 import { GrStorage as StorageIcon } from "react-icons/gr";
 import { FaRegKeyboard as ShortCutsIcon } from "react-icons/fa6";
 import { RxAvatar as ProfileIcon } from "react-icons/rx";
-import BigPopUpWindowMenu from "./BigPopUpWindowMenu";
-import { memo } from "react";
+import SettingPopupWindowMenu from "./SettingPopupWindowMenu";
+import SettingPopupWindowContent from "./SettingPopupWindowContent";
+import SettingPopupWindowLoader from "../../loaders/SettingPopupWindowLoader";
 
 const buttonDataList = [
   {
@@ -56,13 +57,15 @@ const buttonDataList = [
   },
 ];
 
-const BigPopUpWindow = () => {
+const BigPopupWindow = () => {
   return (
-    <div className="w-[70vw] h-[80vh] max-w-md max-h-[550px] overflow-hidden">
-      <BigPopUpWindowMenu buttonDataList={buttonDataList} />
-      <BigPopUpWindowContent />
-    </div>
+    <Suspense fallback={<SettingPopupWindowLoader />}>
+      <div className="w-[70vw] h-[80vh] max-w-md max-h-[550px] overflow-hidden bg-foreground-50 text-foreground-500">
+        <SettingPopupWindowMenu buttonDataList={buttonDataList} />
+        <SettingPopupWindowContent />
+      </div>
+    </Suspense>
   );
 };
 
-export default memo(BigPopUpWindow);
+export default memo(BigPopupWindow);

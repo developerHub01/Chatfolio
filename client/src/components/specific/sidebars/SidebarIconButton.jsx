@@ -1,7 +1,7 @@
+import { memo } from "react";
 import { Avatar, Button, Tooltip } from "@nextui-org/react";
 import { MdAccountCircle as ProfileIcon } from "react-icons/md";
-import { memo } from "react";
-import SidebarPopUpButton from "./SidebarPopUpButton";
+import SidebarPopupButton from "./SidebarPopupButton";
 
 const SidebarButton = ({ content, Icon, type = null, onClick }) => {
   return (
@@ -57,7 +57,7 @@ const SidebarIconButton = ({
   return (
     <>
       {isPopUp ? (
-        <SidebarPopUpButton {...props} />
+        <SidebarPopupButton {...props} />
       ) : (
         <SidebarButton content={content} Icon={Icon} onClick={onClick} />
       )}

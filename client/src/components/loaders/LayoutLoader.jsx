@@ -1,5 +1,5 @@
 import { Divider, Skeleton, Spacer } from "@nextui-org/react";
-import React from "react";
+import React, { memo } from "react";
 
 const RandomSkeleton = ({ height, total = 100 }) => (
   <div
@@ -134,4 +134,4 @@ const LayoutLoader = () => {
   );
 };
 
-export default LayoutLoader;
+export default memo(LayoutLoader);

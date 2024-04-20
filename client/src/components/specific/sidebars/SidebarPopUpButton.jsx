@@ -6,10 +6,13 @@ import {
   PopoverTrigger,
 } from "@nextui-org/react";
 import { RxAvatar as ProfileIcon } from "react-icons/rx";
-import React, { memo } from "react";
-import BigPopUpWindow from "../../popups/bigPopUpWindow/BigPopUpWindow";
+import React, { lazy, memo } from "react";
 
-const SidebarPopUpButton = ({ id, content, Icon, type, onClick, isPopUp }) => {
+const SettingPopupWindow = lazy(() =>
+  import("../../popups/settingPopups/SettingPopupWindow")
+);
+
+const SidebarPopupButton = ({ id, content, Icon, type, onClick, isPopUp }) => {
   return (
     <Popover placement="right" showArrow offset={15} radius="md">
       <PopoverTrigger>
@@ -38,10 +41,10 @@ const SidebarPopUpButton = ({ id, content, Icon, type, onClick, isPopUp }) => {
         </Button>
       </PopoverTrigger>
       <PopoverContent className="w-full">
-        <BigPopUpWindow />
+        <SettingPopupWindow />
       </PopoverContent>
     </Popover>
   );
 };
 
-export default memo(SidebarPopUpButton);
+export default memo(SidebarPopupButton);
