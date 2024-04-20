@@ -7,19 +7,39 @@ import {
 } from "@nextui-org/react";
 import { RxAvatar as ProfileIcon } from "react-icons/rx";
 import React, { lazy, memo } from "react";
+import { useDispatch } from "react-redux";
+import {
+  changeSettingActiveOptions,
+  changeSidebarActivePopup,
+} from "../../../redux/slices/uiStatesSlice";
 
 const SettingPopupWindow = lazy(() =>
   import("../../popups/settingPopups/SettingPopupWindow")
 );
 
-const SidebarPopupButton = ({ id, content, Icon, type, onClick, isPopUp }) => {
+const SidebarPopupButton = ({ id, content, Icon, type }) => {
+  const dispatch = useDispatch();
+
+  const handleChangeSidebarActivePopup = (open) => {
+    dispatch(changeSidebarActivePopup(open ? id : null));
+    dispatch(
+      changeSettingActiveOptions(
+        open ? (id === "setting" ? "general" : "profile") : null
+      )
+    );
+  };
+
   return (
-    <Popover placement="right" offset={-40} radius="md">
+    <Popover
+      placement="right"
+      offset={-40}
+      radius="md"
+      onOpenChange={handleChangeSidebarActivePopup}
+    >
       <PopoverTrigger>
         <Button
           radius="sm"
           isIconOnly
-          onClick={onClick}
           className={`bg-transparent text-primary-500 ${
             type ? "" : "hover:bg-primary-500"
           } hover:text-white`}

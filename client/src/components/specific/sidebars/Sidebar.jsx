@@ -1,7 +1,7 @@
 import { memo } from "react";
-import { IoStarOutline as StarIcon } from "react-icons/io5";
 import SidebarButtonListWrapper from "./SidebarButtonListWrapper";
 import { FaGear as SettingIcon } from "react-icons/fa6";
+import { IoBookmarkOutline as SaveIcon } from "react-icons/io5";
 import {
   IoChatboxEllipsesOutline as ChatIcon,
   IoCallOutline as CallIcon,
@@ -30,9 +30,9 @@ const Sidebar = () => {
 
   const buttonListBottom = [
     {
-      id: "star",
-      Icon: StarIcon,
-      content: "Starred Messages",
+      id: "save",
+      Icon: SaveIcon,
+      content: "Saved Messages",
     },
     {
       id: "archivedChats",
@@ -55,7 +55,7 @@ const Sidebar = () => {
   ];
 
   return (
-    <div className="h-full flex flex-grow-0 flex-shrink-0 bg-foreground-50 overflow-y-auto flex-col p-2 gap-5 justify-between item-center shadow-xl border-r-2 border-foreground-300">
+    <div className="h-full flex flex-grow-0 flex-shrink-0 bg-foreground-50 overflow-y-auto flex-col p-2 gap-5 justify-between item-center shadow-xl border-r-3 border-foreground-100">
       <SidebarButtonListWrapper buttonList={buttonListTop} />
       <SidebarButtonListWrapper buttonList={buttonListBottom} />
     </div>

@@ -10,7 +10,7 @@ ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
     <NextUIProvider>
       <ReduxProvider store={store}>
-        <main className="dark">
+        <main className="dark" onContextMenu={(e) => e.preventDefault()}>
           <MainRoute />
         </main>
       </ReduxProvider>

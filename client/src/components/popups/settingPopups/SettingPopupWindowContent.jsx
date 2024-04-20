@@ -1,4 +1,6 @@
 import React, { memo } from "react";
+import { useSelector } from "react-redux";
+import Profile from "../../specific/setting/Profile";
 
 const P = () => {
   return (
@@ -542,11 +544,41 @@ const P = () => {
   );
 };
 
+const Content = () => {
+  const { activeOption } = useSelector(
+    (state) => state.uiStates.settingOptions
+  );
+  switch (activeOption) {
+    case "general":
+      return <>General</>;
+    case "account":
+      return <>Account</>;
+    case "chats":
+      return <>Chats</>;
+    case "video":
+      return <>Video</>;
+    case "notifications":
+      return <>Notifications</>;
+    case "personalization":
+      return <>Personalization</>;
+    case "storage":
+      return <>Storage</>;
+    case "shortcuts":
+      return <>Shortcuts</>;
+    case "help":
+      return <>Help</>;
+    case "profile":
+      return <Profile />;
+    default:
+      return <P />;
+  }
+};
+
 const BigPopupWindowContent = () => {
   return (
     <div className="w-full h-full p-4 overflow-hidden">
       <div className="w-full h-full px-2 py-5 overflow-y-auto p-5">
-        <P />
+        <Content />
       </div>
     </div>
   );

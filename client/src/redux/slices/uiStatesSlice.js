@@ -8,6 +8,7 @@ const initialState = {
   settingOptions: {
     activeOption: "general",
   },
+  actionIconButtons: {},
 };
 
 const uiStatesSlice = createSlice({
@@ -25,6 +26,10 @@ const uiStatesSlice = createSlice({
         ? action.payload
         : "general";
     },
+    toggleActionIconButton: (state, action) => {
+      state.actionIconButtons[action.payload] =
+        !state.actionIconButtons[action.payload];
+    },
   },
 });
 
@@ -32,5 +37,6 @@ export const {
   changeSidebarActiveTab,
   changeSidebarActivePopup,
   changeSettingActiveOptions,
+  toggleActionIconButton,
 } = uiStatesSlice.actions;
 export default uiStatesSlice.reducer;
