@@ -80,7 +80,6 @@ const ChatBoxChatSkeleton = () => (
         .map((_, key) => {
           const height = Math.round(1 + Math.random() * 2) * 35;
           const direction = !!(Math.round(Math.random() * 100) % 2);
-          console.log(height, direction);
           return (
             <Skeleton
               key={key}
