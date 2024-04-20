@@ -55,12 +55,10 @@ const Sidebar = () => {
   ];
 
   return (
-    <>
-      <div className="h-full flex flex-grow-0 flex-shrink-0 bg-foreground-50 overflow-y-auto flex-col p-2 gap-5 justify-between item-center shadow-xl border-r-2 border-foreground-300">
-        <SidebarButtonListWrapper buttonList={buttonListTop} />
-        <SidebarButtonListWrapper buttonList={buttonListBottom} />
-      </div>
-    </>
+    <div className="h-full flex flex-grow-0 flex-shrink-0 bg-foreground-50 overflow-y-auto flex-col p-2 gap-5 justify-between item-center shadow-xl border-r-2 border-foreground-300">
+      <SidebarButtonListWrapper buttonList={buttonListTop} />
+      <SidebarButtonListWrapper buttonList={buttonListBottom} />
+    </div>
   );
 };
 
