@@ -1,9 +1,19 @@
 import { memo } from "react";
 import { Avatar, Button, Tooltip } from "@nextui-org/react";
 import { MdAccountCircle as ProfileIcon } from "react-icons/md";
+import { useDispatch, useSelector } from "react-redux";
 import SidebarPopupButton from "./SidebarPopupButton";
+import { changeSidebarActiveTab } from "../../../redux/slices/uiStatesSlice";
 
-const SidebarButton = ({ content, Icon, type = null, onClick }) => {
+const SidebarButton = ({ id, content, Icon, type }) => {
+  // getter active tab
+  const { activeTabId } = useSelector((state) => state.uiStates.sidebar);
+  const isActiveTab = activeTabId === id;
+  const dispatch = useDispatch();
+
+  // setter active tab
+  const handleChageSidebarActiveTab = () =>
+    dispatch(changeSidebarActiveTab(id));
   return (
     <Tooltip
       showArrow
@@ -15,10 +25,12 @@ const SidebarButton = ({ content, Icon, type = null, onClick }) => {
       <Button
         radius="sm"
         isIconOnly
-        onClick={onClick}
-        className={`bg-transparent text-primary-500 ${
-          type ? "" : "hover:bg-primary-500"
-        } hover:text-white`}
+        onClick={handleChageSidebarActiveTab}
+        className={`${
+          isActiveTab
+            ? "bg-primary-500 text-white"
+            : "bg-transparent text-primary-500 "
+        } ${type ? "" : "hover:bg-primary-500"} hover:text-white`}
       >
         {type ? (
           <Avatar
@@ -40,10 +52,9 @@ const SidebarButton = ({ content, Icon, type = null, onClick }) => {
 
 const SidebarIconButton = ({
   id,
-  content,
+  content = "",
   Icon,
   type = null,
-  onClick,
   isPopUp = false,
 }) => {
   const props = {
@@ -51,7 +62,6 @@ const SidebarIconButton = ({
     content,
     Icon,
     type,
-    onClick,
     isPopUp,
   };
   return (
@@ -59,7 +69,7 @@ const SidebarIconButton = ({
       {isPopUp ? (
         <SidebarPopupButton {...props} />
       ) : (
-        <SidebarButton content={content} Icon={Icon} onClick={onClick} />
+        <SidebarButton {...props} />
       )}
     </>
   );

@@ -15,19 +15,16 @@ const Sidebar = () => {
       id: "chat",
       Icon: ChatIcon,
       content: "Chats",
-      onClick: () => {},
     },
     {
       id: "call",
       Icon: CallIcon,
       content: "Calls",
-      onClick: () => {},
     },
     {
       id: "story",
       Icon: StoryIcon,
       content: "Stories",
-      onClick: () => {},
     },
   ];
 
@@ -36,13 +33,11 @@ const Sidebar = () => {
       id: "star",
       Icon: StarIcon,
       content: "Starred Messages",
-      onClick: () => {},
     },
     {
       id: "archivedChats",
       Icon: InboxIcon,
       content: "Archived Chats",
-      onClick: () => {},
     },
     {
       id: "setting",

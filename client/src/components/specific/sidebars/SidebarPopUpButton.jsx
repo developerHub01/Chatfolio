@@ -14,7 +14,7 @@ const SettingPopupWindow = lazy(() =>
 
 const SidebarPopupButton = ({ id, content, Icon, type, onClick, isPopUp }) => {
   return (
-    <Popover placement="right" showArrow offset={15} radius="md">
+    <Popover placement="right" offset={-40} radius="md">
       <PopoverTrigger>
         <Button
           radius="sm"

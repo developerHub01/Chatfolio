@@ -4,7 +4,7 @@ import SidebarIconButton from "./SidebarIconButton";
 const SidebarButtonListWrapper = ({ buttonList }) => {
   return (
     <div className="w-full flex flex-col gap-2 justify-center items-center">
-      {buttonList.map((item, index) => (
+      {buttonList.map((item, _) => (
         <SidebarIconButton key={item.id} {...item} />
       ))}
     </div>
