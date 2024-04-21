@@ -1,7 +1,7 @@
-import React from 'react'
+import React, { memo } from 'react'
 
 const ChatMenuList = () => {
   return <div>ChatMenuList</div>;
 }
 
-export default ChatMenuList
+export default memo(ChatMenuList)

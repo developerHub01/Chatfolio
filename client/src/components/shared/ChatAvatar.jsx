@@ -1,5 +1,5 @@
 import { Avatar, Badge } from "@nextui-org/react";
-import React from "react";
+import React, { memo } from "react";
 import { RxAvatar as AvatarIcon } from "react-icons/rx";
 
 const avatarPic =
@@ -27,4 +27,4 @@ const ChatAvatar = ({ src = avatarPic, name = "Avatar" }) => {
   );
 };
 
-export default ChatAvatar;
+export default memo(ChatAvatar);

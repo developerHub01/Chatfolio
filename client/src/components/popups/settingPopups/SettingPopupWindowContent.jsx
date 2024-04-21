@@ -574,7 +574,7 @@ const Content = () => {
   }
 };
 
-const BigPopupWindowContent = () => {
+const SettingPopupWindowContent = () => {
   return (
     <div className="w-full h-full p-4 overflow-hidden">
       <div className="w-full h-full px-2 py-5 overflow-y-auto p-5">
@@ -584,4 +584,4 @@ const BigPopupWindowContent = () => {
   );
 };
 
-export default memo(BigPopupWindowContent);
+export default memo(SettingPopupWindowContent);

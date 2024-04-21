@@ -6,46 +6,87 @@ import {
   PopoverTrigger,
   Tooltip,
 } from "@nextui-org/react";
-import React from "react";
+import React, { memo } from "react";
 import { IoMdSearch as SearchIcon } from "react-icons/io";
 import { useDispatch, useSelector } from "react-redux";
 import { toggleActionIconButton } from "../../redux/slices/uiStatesSlice";
 
-const IconButtonList = ({ id, Icon, PopupComponent }) => {
+const IconButtonList = ({
+  id,
+  Icon = "",
+  text = "",
+  PopupComponent = "",
+  isIconInLeft = false,
+}) => {
   const actionIconButtons = useSelector(
     (state) => state.uiStates.actionIconButtons
   );
   const dispatch = useDispatch();
   const isActive = actionIconButtons[id];
-  console.log(isActive);
 
   const handleToggleButtonState = () => {
     dispatch(toggleActionIconButton(id));
   };
 
+  let iconAndTextButtonIconDirection = {};
+  isIconInLeft
+    ? (iconAndTextButtonIconDirection["startContent"] = (
+        <Icon className="text-2xl" />
+      ))
+    : (iconAndTextButtonIconDirection["endContent"] = (
+        <Icon className="text-2xl" />
+      ));
+
   return (
-    <Popover placement="bottom" onOpenChange={handleToggleButtonState}>
-      <PopoverTrigger>
+    <>
+      {PopupComponent ? (
+        <Popover placement="bottom" onOpenChange={handleToggleButtonState}>
+          <PopoverTrigger>
+            <Button
+              isIconOnly
+              className={`text-xl sm:text-2xl ${
+                isActive
+                  ? "text-white bg-primary-500"
+                  : "text-primary-500 bg-transparent"
+              }  hover:text-white hover:bg-primary-500`}
+            >
+              <Icon />
+            </Button>
+          </PopoverTrigger>
+          <PopoverContent>
+            <PopupComponent />
+          </PopoverContent>
+        </Popover>
+      ) : Icon && text ? (
         <Button
-          isIconOnly
+          isIconOnly={!text}
+          {...iconAndTextButtonIconDirection}
+          className={`text-xl ${
+            isActive
+              ? "text-white bg-primary-500"
+              : "text-primary-500 bg-transparent"
+          }  hover:text-white hover:bg-primary-500 justify-center items-center`}
+        >
+          {text}
+        </Button>
+      ) : (
+        <Button
+          isIconOnly={!text}
           className={`text-xl sm:text-2xl ${
             isActive
               ? "text-white bg-primary-500"
               : "text-primary-500 bg-transparent"
           }  hover:text-white hover:bg-primary-500`}
         >
-          <Icon />
+          {Icon ? <Icon /> : text}
         </Button>
-      </PopoverTrigger>
-      <PopoverContent>
-        <PopupComponent />
-      </PopoverContent>
-    </Popover>
+      )}
+    </>
   );
 };
 
 const MainListContainerHeader = ({
-  buttonList,
+  buttonList = [],
   headingText = "",
   isSearchBar = true,
 }) => {
@@ -55,7 +96,7 @@ const MainListContainerHeader = ({
         <h3 className="text-2xl font-bold capitalize truncate text-ellipsis">
           {headingText}
         </h3>
-        {buttonList && (
+        {!!buttonList.length && (
           <div className="flex gap-2 justify-center items-center">
             {buttonList.map((item) => (
               <IconButtonList key={item.id} {...item} />
@@ -80,4 +121,4 @@ const MainListContainerHeader = ({
   );
 };
 
-export default MainListContainerHeader;
+export default memo(MainListContainerHeader);

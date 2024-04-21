@@ -1,5 +1,5 @@
 import { ScrollShadow } from "@nextui-org/react";
-import React from "react";
+import React, { memo } from "react";
 
 const ListContainer = ({ children }) => {
   return (
@@ -9,4 +9,4 @@ const ListContainer = ({ children }) => {
   );
 };
 
-export default ListContainer;
+export default memo(ListContainer);

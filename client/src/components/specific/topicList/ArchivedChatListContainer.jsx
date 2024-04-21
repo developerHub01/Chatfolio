@@ -1,4 +1,4 @@
-import React from "react";
+import React, { memo } from "react";
 import ChatItem from "../../shared/ChatItem";
 import ListContainer from "../../shared/ListContainer";
 import MainListContainerHeader from "../../shared/MainListContainerHeader";
@@ -8,13 +8,6 @@ const ArchivedChatListContainer = () => {
     <>
       <MainListContainerHeader headingText="Archived Chats" />
       <ListContainer>
-        <ChatItem />
-        <ChatItem />
-        <ChatItem />
-        <ChatItem />
-        <ChatItem />
-        <ChatItem />
-        <ChatItem />
         {Array(20)
           .fill(0)
           .map((item, key) => (
@@ -25,4 +18,4 @@ const ArchivedChatListContainer = () => {
   );
 };
 
-export default ArchivedChatListContainer;
+export default memo(ArchivedChatListContainer);

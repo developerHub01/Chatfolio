@@ -1,7 +1,7 @@
-import React from "react";
+import React, { memo } from "react";
 
 const NewChatPopupWindow = () => {
   return <div>NewChatPopupWindow</div>;
 };
 
-export default NewChatPopupWindow;
+export default memo(NewChatPopupWindow);

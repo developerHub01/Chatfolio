@@ -1,24 +1,48 @@
-import React from "react";
+import React, { Suspense, lazy, memo } from "react";
 import { useSelector } from "react-redux";
-import ChatListContainer from "./ChatListContainer";
-import CallListContainer from "./CallListContainer";
-import ArchivedChatListContainer from "./ArchivedChatListContainer";
-import StoryListContainer from "./StoryListContainer";
-import SavedChatListContainer from "./SavedChatListContainer";
+import ChatListLoader from "../../loaders/ChatListLoader";
+
+const ChatListContainer = lazy(() => import("./ChatListContainer"));
+const CallListContainer = lazy(() => import("./CallListContainer"));
+const ArchivedChatListContainer = lazy(() =>
+  import("./ArchivedChatListContainer")
+);
+const StoryListContainer = lazy(() => import("./StoryListContainer"));
+const SavedChatListContainer = lazy(() => import("./SavedChatListContainer"));
 
 const Content = () => {
   const { activeTabId } = useSelector((state) => state.uiStates.sidebar);
   switch (activeTabId) {
     case "chat":
-      return <ChatListContainer />;
+      return (
+        <Suspense fallback={<ChatListLoader />}>
+          <ChatListContainer />
+        </Suspense>
+      );
     case "call":
-      return <CallListContainer />;
+      return (
+        <Suspense fallback={<ChatListLoader />}>
+          <CallListContainer />
+        </Suspense>
+      );
     case "story":
-      return <StoryListContainer />;
+      return (
+        <Suspense fallback={<ChatListLoader />}>
+          <StoryListContainer />
+        </Suspense>
+      );
     case "save":
-      return <SavedChatListContainer />;
+      return (
+        <Suspense fallback={<ChatListLoader />}>
+          <SavedChatListContainer />
+        </Suspense>
+      );
     case "archivedChats":
-      return <ArchivedChatListContainer />;
+      return (
+        <Suspense fallback={<ChatListLoader />}>
+          <ArchivedChatListContainer />
+        </Suspense>
+      );
     default:
       return <></>;
   }
@@ -32,4 +56,4 @@ const MainListContainer = () => {
   );
 };
 
-export default MainListContainer;
+export default memo(MainListContainer);

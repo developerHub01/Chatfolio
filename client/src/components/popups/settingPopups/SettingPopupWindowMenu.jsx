@@ -74,11 +74,10 @@ const buttonDataList = [
   },
 ];
 
-const BigPopupWindowMenu = () => {
+const SettingPopupWindowMenu = () => {
   const { activeOption } = useSelector(
     (state) => state.uiStates.settingOptions
   );
-  useSelector((state) => console.log(state.uiStates));
   const dispatch = useDispatch();
   const handleChangeActiveOption = (id) =>
     dispatch(changeSettingActiveOptions(id));
@@ -122,4 +121,4 @@ const BigPopupWindowMenu = () => {
   );
 };
 
-export default memo(BigPopupWindowMenu);
+export default memo(SettingPopupWindowMenu);

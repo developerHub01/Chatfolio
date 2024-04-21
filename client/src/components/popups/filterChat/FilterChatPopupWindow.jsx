@@ -1,7 +1,7 @@
-import React from "react";
+import React, { memo } from "react";
 
 const FilterChatPopupWindow = () => {
   return <div>FilterChatPopupWindow</div>;
 };
 
-export default FilterChatPopupWindow;
+export default memo(FilterChatPopupWindow);

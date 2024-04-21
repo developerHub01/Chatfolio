@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { memo, useEffect, useRef, useState } from "react";
 import moment from "moment";
 import ChatAvatar from "./ChatAvatar";
 import {
@@ -79,7 +79,6 @@ const ChatItemThreeDot = () => {
 
 const ChatItem = () => {
   const { activeTabId } = useSelector((state) => state.uiStates.sidebar);
-  console.log(activeTabId);
   const isArchived = activeTabId === "archivedChats";
   return (
     <div className="flex flex-shrink-0 justify-between items-center gap-3 p-3 bg-foreground-50 select-none cursor-pointer hover:bg-primary-50 rounded-lg md:rounded-xl border-b-2 border-foreground-100">
@@ -99,4 +98,4 @@ const ChatItem = () => {
   );
 };
 
-export default ChatItem;
+export default memo(ChatItem);
