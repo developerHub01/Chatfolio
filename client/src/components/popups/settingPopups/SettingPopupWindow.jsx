@@ -5,14 +5,12 @@ import SettingPopupWindowLoader from "../../loaders/SettingPopupWindowLoader";
 
 const SettingPopupWindow = () => {
   return (
-    <>
-      <Suspense fallback={<SettingPopupWindowLoader />}>
-        <div className="w-[70vw] h-[80vh] max-w-md max-h-[550px] overflow-hidden bg-foreground-50 text-foreground-500">
-          <SettingPopupWindowMenu />
-          <SettingPopupWindowContent />
-        </div>
-      </Suspense>
-    </>
+    <Suspense fallback={<SettingPopupWindowLoader />}>
+      <div className="w-[70vw] h-[80vh] max-w-md max-h-[550px] overflow-hidden bg-foreground-50 text-foreground-500">
+        <SettingPopupWindowMenu />
+        <SettingPopupWindowContent />
+      </div>
+    </Suspense>
   );
 };
 

@@ -1,5 +1,4 @@
-import React, { memo, useEffect, useRef, useState } from "react";
-import moment from "moment";
+import React from "react";
 import ChatAvatar from "./ChatAvatar";
 import {
   Button,
@@ -9,11 +8,11 @@ import {
   DropdownMenu,
   DropdownTrigger,
 } from "@nextui-org/react";
-import { useHover } from "@uidotdev/usehooks";
 import { BsThreeDotsVertical as ThreeDotIcon } from "react-icons/bs";
 import ChatMenuList from "./ChatMenuList";
 import ContextMenu from "./ContextMenu";
 import { useSelector } from "react-redux";
+import ChatItemWrapper from "./ChatItemWrapper";
 
 const myUserId = "1";
 
@@ -80,8 +79,12 @@ const ChatItemThreeDot = () => {
 const ChatItem = () => {
   const { activeTabId } = useSelector((state) => state.uiStates.sidebar);
   const isArchived = activeTabId === "archivedChats";
+  const handleContextMenu = (e) => {
+    const { clientX, clientY } = e;
+    console.log(clientX, clientY);
+  };
   return (
-    <div className="flex flex-shrink-0 justify-between items-center gap-3 p-3 bg-foreground-50 select-none cursor-pointer hover:bg-primary-50 rounded-lg md:rounded-xl border-b-2 border-foreground-100">
+    <ChatItemWrapper onContextMenu={handleContextMenu}>
       <ChatAvatar />
       <ChatInfo
         name="Name one"
@@ -94,8 +97,8 @@ const ChatItem = () => {
       <span className="block md:hidden">
         <ChatItemThreeDot />
       </span>
-    </div>
+    </ChatItemWrapper>
   );
 };
 
-export default memo(ChatItem);
+export default ChatItem;

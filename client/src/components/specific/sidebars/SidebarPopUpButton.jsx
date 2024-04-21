@@ -56,7 +56,7 @@ const SidebarPopupButton = ({ id, content, Icon, type }) => {
               fallback={<ProfileIcon />}
             />
           ) : (
-            <Icon className="text-xl md:text-2xl" />
+            <Icon className="text-2xl" />
           )}
         </Button>
       </PopoverTrigger>

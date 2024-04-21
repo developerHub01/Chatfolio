@@ -1,4 +1,4 @@
-import React, { Suspense, lazy, memo } from "react";
+import React, { Suspense, lazy } from "react";
 import { useSelector } from "react-redux";
 import ChatListLoader from "../../loaders/ChatListLoader";
 
@@ -14,35 +14,15 @@ const Content = () => {
   const { activeTabId } = useSelector((state) => state.uiStates.sidebar);
   switch (activeTabId) {
     case "chat":
-      return (
-        <Suspense fallback={<ChatListLoader />}>
-          <ChatListContainer />
-        </Suspense>
-      );
+      return <ChatListContainer />;
     case "call":
-      return (
-        <Suspense fallback={<ChatListLoader />}>
-          <CallListContainer />
-        </Suspense>
-      );
+      return <CallListContainer />;
     case "story":
-      return (
-        <Suspense fallback={<ChatListLoader />}>
-          <StoryListContainer />
-        </Suspense>
-      );
+      return <StoryListContainer />;
     case "save":
-      return (
-        <Suspense fallback={<ChatListLoader />}>
-          <SavedChatListContainer />
-        </Suspense>
-      );
+      return <SavedChatListContainer />;
     case "archivedChats":
-      return (
-        <Suspense fallback={<ChatListLoader />}>
-          <ArchivedChatListContainer />
-        </Suspense>
-      );
+      return <ArchivedChatListContainer />;
     default:
       return <></>;
   }
@@ -50,10 +30,12 @@ const Content = () => {
 
 const MainListContainer = () => {
   return (
-    <div className="h-screen overflow-hidden flex flex-col p-3 gap-4 bg-foreground-50">
-      <Content />
-    </div>
+    <Suspense fallback={<ChatListLoader />}>
+      <div className="h-screen overflow-hidden flex flex-col p-3 gap-4 bg-foreground-50">
+        <Content />
+      </div>
+    </Suspense>
   );
 };
 
-export default memo(MainListContainer);
+export default MainListContainer;

@@ -1,9 +1,9 @@
-import { memo } from "react";
 import { Avatar, Button, Tooltip } from "@nextui-org/react";
 import { MdAccountCircle as ProfileIcon } from "react-icons/md";
 import { useDispatch, useSelector } from "react-redux";
 import SidebarPopupButton from "./SidebarPopupButton";
 import { changeSidebarActiveTab } from "../../../redux/slices/uiStatesSlice";
+import { memo } from "react";
 
 const SidebarButton = ({ id, content, Icon, type }) => {
   // getter active tab
@@ -43,7 +43,7 @@ const SidebarButton = ({ id, content, Icon, type }) => {
             fallback={<ProfileIcon />}
           />
         ) : (
-          <Icon className="text-xl md:text-2xl" />
+          <Icon className="text-2xl" />
         )}
       </Button>
     </Tooltip>

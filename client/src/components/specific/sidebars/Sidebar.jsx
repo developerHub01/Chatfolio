@@ -1,4 +1,3 @@
-import { memo } from "react";
 import SidebarButtonListWrapper from "./SidebarButtonListWrapper";
 import { FaGear as SettingIcon } from "react-icons/fa6";
 import { IoBookmarkOutline as SaveIcon } from "react-icons/io5";
@@ -8,6 +7,7 @@ import {
 } from "react-icons/io5";
 import { BsPostcard as StoryIcon } from "react-icons/bs";
 import { GoInbox as InboxIcon } from "react-icons/go";
+import { memo } from "react";
 
 const Sidebar = () => {
   const buttonListTop = [

@@ -6,7 +6,7 @@ import {
   PopoverTrigger,
   Tooltip,
 } from "@nextui-org/react";
-import React, { memo } from "react";
+import React from "react";
 import { IoMdSearch as SearchIcon } from "react-icons/io";
 import { useDispatch, useSelector } from "react-redux";
 import { toggleActionIconButton } from "../../redux/slices/uiStatesSlice";
@@ -121,4 +121,4 @@ const MainListContainerHeader = ({
   );
 };
 
-export default memo(MainListContainerHeader);
+export default MainListContainerHeader;

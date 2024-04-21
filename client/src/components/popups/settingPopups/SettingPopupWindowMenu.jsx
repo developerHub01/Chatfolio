@@ -1,4 +1,3 @@
-import { memo } from "react";
 import {
   Button,
   Dropdown,
@@ -20,6 +19,7 @@ import { RxAvatar as ProfileIcon } from "react-icons/rx";
 import { FiMenu as MenuIcon } from "react-icons/fi";
 import { useDispatch, useSelector } from "react-redux";
 import { changeSettingActiveOptions } from "../../../redux/slices/uiStatesSlice";
+import { memo } from "react";
 
 const buttonDataList = [
   {

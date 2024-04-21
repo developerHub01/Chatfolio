@@ -12,7 +12,10 @@ ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
     <NextUIProvider>
       <ReduxProvider store={store}>
-        <main className="dark" onContextMenu={(e) => e.preventDefault()}>
+        <main
+          className="dark"
+          // onContextMenu={(e) => e.preventDefault()}
+        >
           <Suspense fallback={<LayoutLoader />}>
             <App />
           </Suspense>

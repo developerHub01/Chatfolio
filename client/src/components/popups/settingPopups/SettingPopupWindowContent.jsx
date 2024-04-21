@@ -1,4 +1,4 @@
-import React, { memo } from "react";
+import React from "react";
 import { useSelector } from "react-redux";
 import Profile from "../../specific/setting/Profile";
 
@@ -584,4 +584,4 @@ const SettingPopupWindowContent = () => {
   );
 };
 
-export default memo(SettingPopupWindowContent);
+export default SettingPopupWindowContent;

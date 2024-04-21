@@ -1,7 +1,7 @@
-import React, { memo } from "react";
+import React from "react";
 
 const ContextMenu = () => {
   return <div>ContextMenu</div>;
 };
 
-export default memo(ContextMenu);
+export default ContextMenu;

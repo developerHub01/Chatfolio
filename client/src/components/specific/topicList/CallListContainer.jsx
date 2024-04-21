@@ -1,4 +1,4 @@
-import React, { memo } from "react";
+import React from "react";
 import ChatItem from "../../shared/ChatItem";
 import ListContainer from "../../shared/ListContainer";
 import MainListContainerHeader from "../../shared/MainListContainerHeader";
@@ -18,4 +18,4 @@ const CallListContainer = () => {
   );
 };
 
-export default memo(CallListContainer);
+export default CallListContainer;
