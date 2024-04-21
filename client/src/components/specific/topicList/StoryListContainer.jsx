@@ -1,8 +1,9 @@
-import React, { memo } from "react";
+import React from "react";
 import MainListContainerHeader from "../../shared/MainListContainerHeader";
 import ListContainer from "../../shared/ListContainer";
-import StoryItem from "../../shared/StoryItem";
+import StoryItem from "../story/StoryItem";
 import { IoMdAdd as AddIcon } from "react-icons/io";
+import MyStories from "../story/MyStories";
 
 const buttonList = [
   {
@@ -15,15 +16,16 @@ const StoryListContainer = () => {
   return (
     <>
       <MainListContainerHeader buttonList={buttonList} headingText="Stories" />
+      <MyStories />
       <ListContainer>
         {Array(20)
           .fill(0)
           .map((item, key) => (
-            <StoryItem key={key} />
+            <StoryItem key={key} name="Name one" />
           ))}
       </ListContainer>
     </>
   );
 };
 
-export default memo(StoryListContainer);
+export default StoryListContainer;
