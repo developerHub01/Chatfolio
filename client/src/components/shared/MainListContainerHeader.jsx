@@ -4,7 +4,6 @@ import {
   Popover,
   PopoverContent,
   PopoverTrigger,
-  Tooltip,
 } from "@nextui-org/react";
 import React from "react";
 import { IoMdSearch as SearchIcon } from "react-icons/io";
@@ -22,7 +21,7 @@ const IconButtonList = ({
     (state) => state.uiStates.actionIconButtons
   );
   const dispatch = useDispatch();
-  const isActive = actionIconButtons[id];
+  const isActive = !!actionIconButtons[id];
 
   const handleToggleButtonState = () => {
     dispatch(toggleActionIconButton(id));
@@ -37,6 +36,7 @@ const IconButtonList = ({
         <Icon className="text-2xl" />
       ));
 
+  console.log(isActive);
   return (
     <>
       {PopupComponent ? (
@@ -44,10 +44,10 @@ const IconButtonList = ({
           <PopoverTrigger>
             <Button
               isIconOnly
-              className={`text-xl sm:text-2xl ${
+              className={`hover:scale-80 text-xl sm:text-2xl ${
                 isActive
-                  ? "text-white bg-primary-500"
-                  : "text-primary-500 bg-transparent"
+                  ? "scale-80 text-white bg-primary-500"
+                  : "scale-100 text-primary-500 bg-transparent"
               }  hover:text-white hover:bg-primary-500`}
             >
               <Icon />
@@ -92,7 +92,7 @@ const MainListContainerHeader = ({
 }) => {
   return (
     <div className="w-full flex flex-col gap-2">
-      <div className="w-full flex justify-between items-center gap-2 overflow-hidden">
+      <div className="w-full flex justify-between items-center gap-2">
         <h3 className="text-2xl font-bold capitalize truncate text-ellipsis">
           {headingText}
         </h3>
@@ -111,7 +111,7 @@ const MainListContainerHeader = ({
           color="primary"
           type="text"
           placeholder="Search"
-          className=""
+          className="text-base"
           startContent={
             <SearchIcon className="text-2xl pointer-events-none flex-shrink-0" />
           }

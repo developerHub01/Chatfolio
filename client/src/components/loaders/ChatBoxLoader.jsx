@@ -5,7 +5,7 @@ import ChatBoxInputLoader from "./ChatBoxInputLoader";
 
 const ChatBoxLoader = () => {
   return (
-    <div className="hidden h-screen w-full md:flex flex-col px-3 divide-y-2 divide-white/5">
+    <div className="hidden h-screen w-full md:flex flex-col px-3 divide-y-2 divide-white/5  bg-foreground-50">
       <ChatBoxTopLoader />
       <ChatBoxChatLoader />
       <ChatBoxInputLoader />

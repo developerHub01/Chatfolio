@@ -40,7 +40,7 @@ const SidebarPopupButton = ({ id, content, Icon, type }) => {
         <Button
           radius="sm"
           isIconOnly
-          className={`bg-transparent text-primary-500 ${
+          className={`hover:scale-80 bg-transparent text-primary-500 ${
             type ? "" : "hover:bg-primary-500"
           } hover:text-white`}
         >

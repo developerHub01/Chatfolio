@@ -3,7 +3,7 @@ import React, { memo } from "react";
 
 const SidebarLoader = () => {
   return (
-    <div className="h-fll w-12 p-2 px-3 flex flex-shrink-0 flex-grow-0 flex-col justify-between items-center border-r-2 border-white/5">
+    <div className="h-fll w-12 p-2 px-3 flex flex-shrink-0 flex-grow-0 flex-col justify-between items-center border-r-2 border-white/5  bg-foreground-50">
       <div className="flex flex-col gap-2 justify-center items-center">
         {Array(3)
           .fill(0)

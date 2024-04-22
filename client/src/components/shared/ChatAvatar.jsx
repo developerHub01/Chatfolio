@@ -28,6 +28,7 @@ const ChatAvatar = ({ src = avatarPic, name = "Avatar", isActive = false }) => {
           placement="bottom-right"
           shape="circle"
           size="lg"
+          className="flex-grow-0 flex-shrink-0"
         >
           <ProfileAvatar src={src} name={name} />
         </Badge>

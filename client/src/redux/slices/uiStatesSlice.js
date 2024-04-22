@@ -11,6 +11,12 @@ const initialState = {
   actionIconButtons: {},
   addStory: {
     active: false,
+    tempImage: null,
+  },
+  contextMenu: {
+    position: null,
+    refDom: null,
+    contextData: null,
   },
 };
 
@@ -36,6 +42,20 @@ const uiStatesSlice = createSlice({
     toggleAddStory: (state, action) => {
       state.addStory.active = !state.addStory.active;
     },
+    setStoryTempImage: (state, action) => {
+      state.addStory.tempImage = action.payload;
+    },
+    openContextMenu: (state, action) => {
+      console.log(action.payload);
+      const { position, refDom, contextData } = action.payload;
+      position && (state.contextMenu.position = position);
+      refDom && (state.contextMenu.refDom = refDom);
+      contextData && (state.contextMenu.contextData = contextData);
+    },
+    closeContextMenu: (state, action) => {
+      state.contextMenu.position = null;
+      state.contextMenu.refDom = null;
+    },
   },
 });
 
@@ -45,5 +65,8 @@ export const {
   changeSettingActiveOptions,
   toggleActionIconButton,
   toggleAddStory,
+  setStoryTempImage,
+  openContextMenu,
+  closeContextMenu,
 } = uiStatesSlice.actions;
 export default uiStatesSlice.reducer;

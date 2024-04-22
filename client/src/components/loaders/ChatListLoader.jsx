@@ -14,7 +14,7 @@ const RandomSkeleton = ({ height, total = 100 }) => (
 
 const ChatListLoader = ({ numberOfChat = 20 }) => {
   return (
-    <div className="w-full flex-grow flex-shrink h-full sm:flex-grow-0 sm:flex-shrink-0 flex-col gap-2 justify-start items-center overflow-hidden divide-y-2 divide-white/5">
+    <div className="w-full flex-grow flex-shrink h-full sm:flex-grow-0 sm:flex-shrink-0 flex-col gap-2 justify-start items-center overflow-hidden divide-y-2 divide-white/5 bg-foreground-50">
       <div className="flex justify-between items-center p-3 gap-2">
         <Skeleton className="w-20 h-10 rounded-md" />
         <Skeleton className="w-full h-10 rounded-md flex-1" />

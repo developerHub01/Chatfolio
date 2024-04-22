@@ -26,9 +26,9 @@ const SidebarButton = ({ id, content, Icon, type }) => {
         radius="sm"
         isIconOnly
         onClick={handleChageSidebarActiveTab}
-        className={`${
+        className={`hover:scale-80 ${
           isActiveTab
-            ? "bg-primary-500 text-white"
+            ? "scale-80 bg-primary-500 text-white"
             : "bg-transparent text-primary-500 "
         } ${type ? "" : "hover:bg-primary-500"} hover:text-white`}
       >

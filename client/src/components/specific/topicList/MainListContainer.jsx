@@ -31,7 +31,7 @@ const Content = () => {
 const MainListContainer = () => {
   return (
     <Suspense fallback={<ChatListLoader />}>
-      <div className="h-screen overflow-hidden flex flex-col p-3 gap-4 bg-foreground-50">
+      <div className="h-screen flex flex-col p-3 gap-4 bg-foreground-50">
         <Content />
       </div>
     </Suspense>

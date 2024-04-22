@@ -1,4 +1,4 @@
-import React from "react";
+import React, { lazy } from "react";
 import StoryItem from "./StoryItem";
 import { Avatar, Badge, Tooltip } from "@nextui-org/react";
 import { RxAvatar as AvatarIcon } from "react-icons/rx";
@@ -6,6 +6,9 @@ import { IoMdAdd as AddIcon } from "react-icons/io";
 import { FaRegEye as EyeIcon } from "react-icons/fa";
 import { useDispatch } from "react-redux";
 import { toggleAddStory } from "../../../redux/slices/uiStatesSlice";
+import { AnimatePresence, motion } from "framer-motion";
+
+const CreateStoryModal = lazy(() => import("./CreateStoryModal"));
 
 const isThereMyStories = true;
 const avatarPic =
@@ -76,11 +79,22 @@ const MyStories = ({ src = avatarPic, name = "Me" }) => {
   storyAvatarData[0].onClick = handleOpenAddStoryModal;
   storyAvatarData[1].onClick = handleOpenMyStoryModal;
   return (
-    <div className="w-full flex justify-evenly items-center gap-3">
-      {storyAvatarData.map((item, _) => (
-        <StoryAvatar key={item.id} {...item} />
-      ))}
-    </div>
+    <AnimatePresence>
+      <motion.div
+        className="w-full flex justify-evenly items-center gap-3"
+        key={"myStories"}
+        initial={{ y: "50%", scale: 0.5, opacity: 0 }}
+        animate={{ y: 0, scale: 1, opacity: 1 }}
+        transition={{
+          duration: 0.5,
+        }}
+      >
+        {storyAvatarData.map((item, _) => (
+          <StoryAvatar key={item.id} {...item} />
+        ))}
+        <CreateStoryModal />
+      </motion.div>
+    </AnimatePresence>
   );
 };
 

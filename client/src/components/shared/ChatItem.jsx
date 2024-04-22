@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useRef, lazy } from "react";
 import ChatAvatar from "./ChatAvatar";
 import {
   Button,
@@ -9,10 +9,10 @@ import {
   DropdownTrigger,
 } from "@nextui-org/react";
 import { BsThreeDotsVertical as ThreeDotIcon } from "react-icons/bs";
-import ChatMenuList from "./ChatMenuList";
-import ContextMenu from "./ContextMenu";
-import { useSelector } from "react-redux";
+
+import { useDispatch, useSelector } from "react-redux";
 import ChatItemWrapper from "./ChatItemWrapper";
+import { openContextMenu } from "../../redux/slices/uiStatesSlice";
 
 const myUserId = "1";
 
@@ -59,8 +59,13 @@ const ChatItemThreeDot = () => {
       {/* <ChatMenuList /> */}
       <Dropdown placement="left">
         <DropdownTrigger>
-          <Button isIconOnly size="sm">
-            <ThreeDotIcon />
+          <Button
+            isIconOnly
+            size="sm"
+            radius="sm"
+            className="bg-transparent hover:bg-primary-500 hover:text-white"
+          >
+            <ThreeDotIcon className="text-base" />
           </Button>
         </DropdownTrigger>
         <DropdownMenu aria-label="Static Actions">
@@ -76,12 +81,22 @@ const ChatItemThreeDot = () => {
   );
 };
 
-const ChatItem = () => {
+const ChatItem = ({ chatId }) => {
   const { activeTabId } = useSelector((state) => state.uiStates.sidebar);
+  const { position } = useSelector((state) => state.uiStates.contextMenu);
+  const dispatch = useDispatch();
   const isArchived = activeTabId === "archivedChats";
+
   const handleContextMenu = (e) => {
     const { clientX, clientY } = e;
-    console.log(clientX, clientY);
+    dispatch(
+      openContextMenu({
+        position: { clientX, clientY },
+        contextData: {
+          id: chatId,
+        },
+      })
+    );
   };
   return (
     <ChatItemWrapper onContextMenu={handleContextMenu}>
