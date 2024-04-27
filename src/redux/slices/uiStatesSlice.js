@@ -19,6 +19,7 @@ const initialState = {
     refDom: null,
     contextData: null,
   },
+  message: "",
 };
 
 const uiStatesSlice = createSlice({
@@ -61,6 +62,10 @@ const uiStatesSlice = createSlice({
       state.contextMenu.position = null;
       state.contextMenu.refDom = null;
     },
+
+    changeMessage: (state, action) => {
+      state.message = action.payload;
+    },
   },
 });
 
@@ -73,5 +78,6 @@ export const {
   setStoryTempImage,
   openContextMenu,
   closeContextMenu,
+  changeMessage,
 } = uiStatesSlice.actions;
 export default uiStatesSlice.reducer;
