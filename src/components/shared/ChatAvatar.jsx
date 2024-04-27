@@ -3,13 +3,14 @@ import React from "react";
 import { RxAvatar as AvatarIcon } from "react-icons/rx";
 
 const ProfileAvatar = (props) => {
+  const { size = "16", ...otherProps } = props;
   return (
     <Avatar
       isBordered
       color="primary"
       showFallback
-      {...props}
-      className="flex-grow-0 flex-shrink-0 w-10 h-10 sm:w-16 sm:h-16"
+      {...otherProps}
+      className={`cursor-pointer flex-grow-0 flex-shrink-0 w-10 h-10 sm:w-${size} sm:h-${size}`}
       fallback={<AvatarIcon className="text-5xl" />}
     />
   );
@@ -18,7 +19,12 @@ const ProfileAvatar = (props) => {
 const avatarPic =
   "https://t4.ftcdn.net/jpg/03/26/98/51/360_F_326985142_1aaKcEjMQW6ULp6oI9MYuv8lN9f8sFmj.jpg";
 
-const ChatAvatar = ({ src = avatarPic, name = "Avatar", isActive = false }) => {
+const ChatAvatar = ({
+  src = avatarPic,
+  name = "Avatar",
+  isActive = false,
+  size = "16",
+}) => {
   return (
     <>
       {isActive ? (
@@ -30,10 +36,10 @@ const ChatAvatar = ({ src = avatarPic, name = "Avatar", isActive = false }) => {
           size="lg"
           className="flex-grow-0 flex-shrink-0"
         >
-          <ProfileAvatar src={src} name={name} />
+          <ProfileAvatar src={src} name={name} size={size} />
         </Badge>
       ) : (
-        <ProfileAvatar src={src} name={name} />
+        <ProfileAvatar src={src} name={name} size={size} />
       )}
     </>
   );
