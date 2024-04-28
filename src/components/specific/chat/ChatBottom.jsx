@@ -15,7 +15,12 @@ import { FaRegFaceGrinWide as FaceIcon } from "react-icons/fa6";
 import IconButton from "../../shared/IconButton";
 import { motion } from "framer-motion";
 import { useDispatch } from "react-redux";
-import { changeMessage } from "../../../redux/slices/uiStatesSlice";
+import {
+  changeActiveEmojiOrGifs,
+  changeMessage,
+} from "../../../redux/slices/uiStatesSlice";
+import EmojiGifsPopup from "./EmojiGifsPopup";
+import { attatchmentButtonList } from "../../../utils/AttachmentButtonDataList";
 
 const iconAnimation = {
   initial: {
@@ -51,9 +56,14 @@ const ChatBottom = () => {
     if (isSubmit) handleSendMessage(e);
   };
 
+  const handleOpenEmojiAndGifs = (open) => {
+    if (open) return disptach(changeActiveEmojiOrGifs({ activeTab: "emoji" }));
+    else return disptach(changeActiveEmojiOrGifs(null));
+  };
+
   return (
     <div className="w-full py-2 flex justify-between items-end gap-2 border-t-4">
-      <Popover>
+      <Popover onOpenChange={handleOpenEmojiAndGifs}>
         <PopoverTrigger>
           <Button
             isIconOnly
@@ -63,11 +73,8 @@ const ChatBottom = () => {
             <FaceIcon className="text-2xl" />
           </Button>
         </PopoverTrigger>
-        <PopoverContent>
-          <div className="px-1 py-2">
-            <div className="text-small font-bold">Popover Content</div>
-            <div className="text-tiny">This is the popover content</div>
-          </div>
+        <PopoverContent className="p-0 overflow-hidden">
+          <EmojiGifsPopup />
         </PopoverContent>
       </Popover>
       <Popover>
@@ -80,11 +87,24 @@ const ChatBottom = () => {
             <AttachIcon className="text-2xl" />
           </Button>
         </PopoverTrigger>
-        <PopoverContent>
-          <div className="px-1 py-2">
-            <div className="text-small font-bold">Popover Content</div>
-            <div className="text-tiny">This is the popover content</div>
-          </div>
+        <PopoverContent className="p-1">
+          <ul className="flex flex-col gap-1 w-40">
+            {attatchmentButtonList.map(({ id, text, Icon }, _) => (
+              <li className="w-full" key={id}>
+                <input type="file" name={id} id={id} hidden />
+                <motion.label
+                  whileHover={{
+                    scale: 0.95,
+                  }}
+                  htmlFor={id}
+                  className="w-full flex justify-start items-center gap-3 px-3 py-2 text-base cursor-pointer text-primary-500 hover:text-white hover:bg-primary-500 rounded-md"
+                >
+                  <Icon className="text-lg" />
+                  {text}
+                </motion.label>
+              </li>
+            ))}
+          </ul>
         </PopoverContent>
       </Popover>
       <form onSubmit={handleSendMessage} className="flex-1">

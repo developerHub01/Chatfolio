@@ -1,4 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
+import { EMOJI, GIFS } from "../../constants/values";
 
 const initialState = {
   theme: "light",
@@ -18,6 +19,12 @@ const initialState = {
     position: null,
     refDom: null,
     contextData: null,
+  },
+  activeEmojiOrGifs: {
+    isActive: false,
+    activeTab: EMOJI,
+    activeEmojiSubCategory: "all",
+    activeGifSubCategory: "all",
   },
   message: "",
 };
@@ -58,11 +65,35 @@ const uiStatesSlice = createSlice({
       refDom && (state.contextMenu.refDom = refDom);
       contextData && (state.contextMenu.contextData = contextData);
     },
-    closeContextMenu: (state, action) => {
-      state.contextMenu.position = null;
-      state.contextMenu.refDom = null;
-    },
+    changeActiveEmojiOrGifs: (state, action) => {
+      if (action.payload === null || action.payload === undefined) {
+        state.activeEmojiOrGifs.isActive = false;
+        state.activeEmojiOrGifs.activeTab = EMOJI;
+        state.activeEmojiOrGifs.activeEmojiSubCategory = "all";
+        state.activeEmojiOrGifs.activeGifSubCategory = "all";
+        return;
+      }
+      state.activeEmojiOrGifs.isActive = true;
+      let activeTab = action.payload.activeTab;
+      if (![EMOJI, GIFS].includes(action.payload.activeTab)) activeTab = EMOJI;
 
+      if (activeTab) state.activeEmojiOrGifs.activeTab = activeTab;
+
+      state.activeEmojiOrGifs.activeEmojiSubCategory = "all";
+      state.activeEmojiOrGifs.activeGifSubCategory = "all";
+    },
+    changeActiveEmojiOrGifsSubCategory: (state, action) => {
+      state.activeEmojiOrGifs.isActive = true;
+      const activeEmojiSubCategory = action.payload.activeEmojiSubCategory;
+      const activeGifSubCategory = action.payload.activeGifSubCategory;
+
+      state.activeEmojiOrGifs.activeEmojiSubCategory = activeEmojiSubCategory
+        ? activeEmojiSubCategory
+        : "all";
+      state.activeEmojiOrGifs.activeGifSubCategory = activeGifSubCategory
+        ? activeGifSubCategory
+        : "all";
+    },
     changeMessage: (state, action) => {
       state.message = action.payload;
     },
@@ -78,6 +109,8 @@ export const {
   setStoryTempImage,
   openContextMenu,
   closeContextMenu,
+  changeActiveEmojiOrGifs,
+  changeActiveEmojiOrGifsSubCategory,
   changeMessage,
 } = uiStatesSlice.actions;
 export default uiStatesSlice.reducer;

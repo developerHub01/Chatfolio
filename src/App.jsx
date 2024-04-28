@@ -9,8 +9,8 @@ const App = () => {
       <Sidebar />
       <div className="h-full w-full grid grid-cols-12 bg-background-900">
         <div className="h-full col-span-full md:col-span-5 border-r-4 border-background-800">
-          <MainListContainer />
-          {/* <ChatPage /> */}
+          {/* <MainListContainer /> */}
+          <ChatPage />
         </div>
         <div className="hidden md:block md:col-span-7">
           {/* <WelcomeSection /> */}

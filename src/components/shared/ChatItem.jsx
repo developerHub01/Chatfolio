@@ -13,7 +13,6 @@ import { BsThreeDotsVertical as ThreeDotIcon } from "react-icons/bs";
 import { useDispatch, useSelector } from "react-redux";
 import ChatItemWrapper from "./ChatItemWrapper";
 import { openContextMenu } from "../../redux/slices/uiStatesSlice";
-import { motion } from "framer-motion";
 
 const myUserId = "1";
 
