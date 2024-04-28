@@ -4,6 +4,7 @@ import { IoCallOutline as CallIcon } from "react-icons/io5";
 import {
   IoMdSearch as SearchIcon,
   IoIosInformationCircle as InfoIcon,
+  IoIosArrowBack as LeftArrowIcon,
 } from "react-icons/io";
 import ChatAvatar from "../../shared/ChatAvatar";
 import IconButton from "../../shared/IconButton";
@@ -32,6 +33,9 @@ const buttonList = [
 const ChatLeft = () => {
   return (
     <div className="flex justify-start items-center gap-3 flex-1">
+      <Button isIconOnly variant="light" size="sm" radius="full" color="primary">
+        <LeftArrowIcon className="text-xl" />
+      </Button>
       <ChatAvatar size="15" />
       <div className="w-full flex-1 overflow-hidden flex flex-col">
         <h3 className="h3">Full Name</h3>

@@ -6,6 +6,7 @@ import {
 } from "react-icons/io5";
 import { BsPostcard as StoryIcon } from "react-icons/bs";
 import { GoInbox as InboxIcon } from "react-icons/go";
+import { GrGroup as GroupIcon } from "react-icons/gr";
 
 export const buttonListTop = [
   {
@@ -27,9 +28,9 @@ export const buttonListTop = [
 
 export const buttonListBottom = [
   {
-    id: "save",
-    Icon: SaveIcon,
-    content: "Saved Messages",
+    id: "group",
+    Icon: GroupIcon,
+    content: "Groups",
   },
   {
     id: "archivedChats",

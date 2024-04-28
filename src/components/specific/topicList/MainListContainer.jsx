@@ -8,7 +8,7 @@ const ArchivedChatListContainer = lazy(() =>
   import("./ArchivedChatListContainer")
 );
 const StoryListContainer = lazy(() => import("./StoryListContainer"));
-const SavedChatListContainer = lazy(() => import("./SavedChatListContainer"));
+const GroupListContainer = lazy(() => import("./GroupListContainer"));
 
 const Content = () => {
   const { activeTabId } = useSelector((state) => state.uiStates.sidebar);
@@ -19,8 +19,8 @@ const Content = () => {
       return <CallListContainer />;
     case "story":
       return <StoryListContainer />;
-    case "save":
-      return <SavedChatListContainer />;
+    case "group":
+      return <GroupListContainer />;
     case "archivedChats":
       return <ArchivedChatListContainer />;
     default:
