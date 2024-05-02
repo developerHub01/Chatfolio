@@ -1,10 +1,18 @@
-import { Button, Input } from "@nextui-org/react";
+import { Button, Input, ScrollShadow } from "@nextui-org/react";
 import React, { useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import {
   FaRegEye as EyeIcon,
   FaRegEyeSlash as EyeSlashIcon,
 } from "react-icons/fa6";
+import axios from "axios";
+import {
+  FACEBOOK_LOGIN_API,
+  GOOGLE_LOGIN_API,
+  LOGIN_API,
+  REGISTER_API,
+} from "../constants/values";
+import useAuthPost from "../hooks/useAuthPost";
 
 const googleIcon =
   "https://static-00.iconduck.com/assets.00/google-icon-2048x2048-czn3g8x8.png";
@@ -31,9 +39,15 @@ const headingAnimProps = {
   },
 };
 
-const formInitialValues = { fullName: "", userName: "", password: "" };
+const formInitialValues = {
+  fullName: "",
+  userName: "",
+  email: "",
+  password: "",
+};
 
 const LoginRegister = () => {
+  const postFormData = useAuthPost();
   const [isLoginTab, setIsLoginTab] = useState(true);
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
   const [formData, setFormData] = useState({
@@ -45,10 +59,46 @@ const LoginRegister = () => {
       [e.target.name]: e.target.value,
     }));
   };
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log(formData);
-    setFormData((prev) => ({ ...formInitialValues }));
+
+    if (
+      (isLoginTab && (!formData.email || !formData.password)) ||
+      (!isLoginTab &&
+        (!formData.fullName ||
+          !formData.email ||
+          !formData.password ||
+          !formData.userName))
+    ) {
+      return;
+    }
+
+    const formDataToSend = isLoginTab
+      ? {
+          email: formData.email,
+          password: formData.password,
+        }
+      : formData;
+
+    // posting data in server
+    const data = postFormData(
+      isLoginTab ? LOGIN_API : REGISTER_API,
+      formDataToSend
+    );
+    // const res = await axios.post(
+    //   isLoginTab ? LOGIN_API : REGISTER_API,
+    //   formDataToSend
+    // );
+    const { success: isSuccess } = data;
+
+    if (isLoginTab && isSuccess) {
+      return;
+      /* do something when user logged in */
+    }
+    if (!isLoginTab && isSuccess) {
+      setIsLoginTab((prev) => !prev);
+      setFormData((prev) => ({ ...formInitialValues }));
+    }
   };
   const handleToggleForm = () => setIsLoginTab((prev) => !prev);
   const handleTogglePasswordVisible = () =>
@@ -56,9 +106,11 @@ const LoginRegister = () => {
 
   const handleGoogleAuth = () => {
     console.log(`login with google`);
+    window.open(GOOGLE_LOGIN_API, "_self");
   };
   const handleFacebookAuth = () => {
     console.log(`login with facebook`);
+    window.open(FACEBOOK_LOGIN_API, "_self");
   };
 
   const thirdPartyLoginButtons = [
@@ -73,25 +125,35 @@ const LoginRegister = () => {
       image: facebookIcon,
     },
   ];
+  const headingClasses = "h-12 text-center text-3xl font-bold text-primary-500";
   return (
-    <div className="w-full h-full p-10 flex justify-center items-center flex-col">
-      <motion.form
+    <div className="w-screen h-screen !overflow-hidden p-5 flex justify-center items-center flex-col">
+      <div className="absolute h-[150vh] w-[400px] flex gap-11 -skew-x-[30deg]">
+        {Array(3)
+          .fill(0)
+          .map((_, key) => (
+            <span
+              key={key}
+              className="w-full h-full bg-primary-500 shadow-2xl"
+            />
+          ))}
+      </div>
+      <motion.div
         {...headingAnimProps}
-        className="w-full max-w-md flex flex-col justify-center items-center gap-2 sm:gap-4 text-foreground-300 shadow-2xl px-4 sm:px-5 py-6 sm:py-8 rounded-md"
-        onSubmit={handleSubmit}
         whileHover={{
           scale: 1.05,
         }}
         whileTap={{
           scale: 1.05,
         }}
+        className="w-full max-w-md max-h-[90vh] flex flex-col justify-center items-center gap-4 text-foreground-300 shadow-2xl px-4 sm:px-5 py-6 sm:py-8 rounded-md bg-background-900 backdrop-blur-xl overflow-hidden"
       >
-        <div className="w-full h-10 overflow-hidden flex flex-col justify-center items-center">
+        <div className="w-full h-14 overflow-hidden flex flex-col justify-center items-center">
           {isLoginTab ? (
             <motion.h1
               key={"login"}
               {...headingAnimProps}
-              className="h-full text-center text-3xl pb-2 font-bold text-primary-500"
+              className={headingClasses}
             >
               Login
             </motion.h1>
@@ -99,83 +161,119 @@ const LoginRegister = () => {
             <motion.h1
               key={"register"}
               {...headingAnimProps}
-              className="h-full text-center text-3xl pb-2 font-bold text-primary-500"
+              className={headingClasses}
             >
               Register
             </motion.h1>
           )}
         </div>
-        <AnimatePresence>
-          {isLoginTab || (
-            <motion.div {...inputAnimProps} className="w-full">
-              <Input
-                type="text"
-                variant="bordered"
-                placeholder="Full name"
-                className="w-full"
+        <form
+          className="p-1 w-full flex-1 overflow-hidden"
+          onSubmit={handleSubmit}
+        >
+          <ScrollShadow
+            hideScrollBar
+            size={2}
+            className="w-full h-full flex flex-col gap-3 sm:gap-4"
+          >
+            <AnimatePresence>
+              {isLoginTab || (
+                <>
+                  <motion.div {...inputAnimProps} className="w-full">
+                    <Input
+                      type="text"
+                      variant="bordered"
+                      placeholder="Full name"
+                      className="w-full"
+                      size="md"
+                      radius="sm"
+                      color="primary"
+                      name="fullName"
+                      value={formData["fullName"]}
+                      onChange={handleChange}
+                      required
+                    />
+                  </motion.div>
+                  <motion.div {...inputAnimProps} className="w-full">
+                    <Input
+                      type="text"
+                      variant="bordered"
+                      placeholder="Username"
+                      className="w-full"
+                      size="md"
+                      radius="sm"
+                      color="primary"
+                      value={formData["userName"]}
+                      name="userName"
+                      onChange={handleChange}
+                      required
+                    />
+                  </motion.div>
+                </>
+              )}
+            </AnimatePresence>
+            <Input
+              type="email"
+              variant="bordered"
+              placeholder="Email address"
+              className="w-full"
+              size="md"
+              radius="sm"
+              color="primary"
+              value={formData["email"]}
+              name="email"
+              onChange={handleChange}
+              required
+            />
+            <Input
+              type={isPasswordVisible ? "text" : "password"}
+              variant="bordered"
+              placeholder="Password"
+              className="w-full"
+              size="md"
+              radius="sm"
+              color="primary"
+              value={formData["password"]}
+              name="password"
+              onChange={handleChange}
+              required
+              endContent={
+                <Button
+                  isIconOnly
+                  size="sm"
+                  radius="full"
+                  type="button"
+                  className="text-base"
+                  onClick={handleTogglePasswordVisible}
+                >
+                  {isPasswordVisible ? <EyeSlashIcon /> : <EyeIcon />}
+                </Button>
+              }
+            />
+            <Button
+              type="submit"
+              color="primary"
+              radius="sm"
+              className="w-full"
+            >
+              {isLoginTab ? "Login" : "Register"}
+            </Button>
+            <div className="w-full flex justify-center items-center gap-2 flex-wrap">
+              <p className="text-sm flex-1">
+                {isLoginTab ? "Don't have account?" : "Already have account? "}
+              </p>
+              <Button
+                variant="light"
                 size="md"
                 radius="sm"
-                color="primary"
-                name="fullName"
-                value={formData["fullName"]}
-                onChange={handleChange}
-              />
-            </motion.div>
-          )}
-        </AnimatePresence>
-        <Input
-          type="text"
-          variant="bordered"
-          placeholder="Username"
-          className="w-full"
-          size="md"
-          radius="sm"
-          color="primary"
-          value={formData["userName"]}
-          name="userName"
-          onChange={handleChange}
-        />
-        <Input
-          type={isPasswordVisible ? "text" : "password"}
-          variant="bordered"
-          placeholder="Password"
-          className="w-full"
-          size="md"
-          radius="sm"
-          color="primary"
-          value={formData["password"]}
-          name="password"
-          onChange={handleChange}
-          endContent={
-            <Button
-              isIconOnly
-              size="sm"
-              radius="full"
-              type="button"
-              className="text-base"
-              onClick={handleTogglePasswordVisible}
-            >
-              {isPasswordVisible ? <EyeSlashIcon /> : <EyeIcon />}
-            </Button>
-          }
-        />
-        <Button type="submit" color="primary" radius="sm" className="w-full">
-          {isLoginTab ? "Login" : "Register"}
-        </Button>
-        <div className="w-full flex justify-center items-center gap-2 flex-wrap">
-          <p className="text-sm flex-1">
-            {isLoginTab ? "Don't have account?" : "Already have account? "}
-          </p>
-          <Button
-            variant="light"
-            size="md"
-            radius="sm"
-            onClick={handleToggleForm}
-          >
-            {isLoginTab ? "Register" : "Login"}
-          </Button>
-        </div>
-        <div className="w-full flex justify-between items-center gap-2 flex-col md:flex-row">
+                onClick={handleToggleForm}
+              >
+                {isLoginTab ? "Register" : "Login"}
+              </Button>
+            </div>
+          </ScrollShadow>
+        </form>
+        <div className="w-full flex justify-between items-center gap-2 flex-col sm:flex-row">
           {thirdPartyLoginButtons.map(({ id, image, onClick }) => (
             <Button
               key={id}
@@ -191,7 +289,7 @@ const LoginRegister = () => {
             </Button>
           ))}
         </div>
-      </motion.form>
+      </motion.div>
     </div>
   );
 };
