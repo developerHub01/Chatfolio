@@ -85,11 +85,11 @@ const LoginRegister = () => {
       isLoginTab ? LOGIN_API : REGISTER_API,
       formDataToSend
     );
-    // const res = await axios.post(
-    //   isLoginTab ? LOGIN_API : REGISTER_API,
-    //   formDataToSend
-    // );
     const { success: isSuccess } = data;
+
+    if (!isSuccess) {
+      return;
+    }
 
     if (isLoginTab && isSuccess) {
       return;
