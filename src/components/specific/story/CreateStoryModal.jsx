@@ -10,7 +10,6 @@ import {
 } from "@nextui-org/react";
 // import { Navigation } from "./components/Navigation";
 // import { Slider } from "./components/Slider";
-import { BsBrush as BrushIcon } from "react-icons/bs";
 import React, { Suspense, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
@@ -18,6 +17,7 @@ import {
   toggleAddStory,
 } from "../../../redux/slices/uiStatesSlice";
 import uploadImage from "../../../assets/images/uploadImage.jpeg";
+import { BrushIcon } from "../../../constants/icons";
 
 const PreviewImage = ({ imageState }) => {
   return (

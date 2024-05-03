@@ -2,14 +2,12 @@ import React, { useState } from "react";
 import MainListContainerHeader from "../../shared/MainListContainerHeader";
 import ListContainer from "../../shared/ListContainer";
 import ChatItem from "../../shared/ChatItem";
-import { FaRegEdit as EditIcon } from "react-icons/fa";
-import { VscListFilter as FilterIcon } from "react-icons/vsc";
 import NewChatPopupWindow from "../../popups/newChat/NewChatPopupWindow";
 import FilterChatPopupWindow from "../../popups/filterChat/FilterChatPopupWindow";
-import { BsArchive as ArchivedIcon } from "react-icons/bs";
 
 import ContextMenu from "../../shared/ContextMenu";
 import { useSelector } from "react-redux";
+import { ArchivedIcon, EditIcon, FilterIcon } from "../../../constants/icons";
 
 const menuItems = [
   {

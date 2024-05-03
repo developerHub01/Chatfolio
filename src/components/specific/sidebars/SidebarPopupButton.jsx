@@ -5,16 +5,19 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@nextui-org/react";
-import { RxAvatar as ProfileIcon } from "react-icons/rx";
 import React, { lazy, memo } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { changeSettingActiveOptions } from "../../../redux/slices/uiStatesSlice";
+import { ProfileIcon } from "../../../constants/icons";
 
 const SettingPopupWindow = lazy(() =>
   import("../../popups/settingPopups/SettingPopupWindow")
 );
 
 const SidebarPopupButton = ({ id, content, Icon, type }) => {
+  const {
+    user: { avatar },
+  } = useSelector((state) => state.authStates);
   const dispatch = useDispatch();
 
   const handleChangeSidebarActivePopup = (open) => {
@@ -34,7 +37,6 @@ const SidebarPopupButton = ({ id, content, Icon, type }) => {
       onOpenChange={handleChangeSidebarActivePopup}
       className=""
       classNames={{
-        // base: "bg-red-50",
         content: "bg-foreground",
       }}
     >
@@ -50,20 +52,20 @@ const SidebarPopupButton = ({ id, content, Icon, type }) => {
           {type ? (
             <Avatar
               className="block"
-              src={Icon}
+              src={avatar || Icon}
               name={content}
               isBordered
               color="primary"
               radius="full"
               size="sm"
-              fallback={<ProfileIcon />}
+              fallback={<ProfileIcon className="text-2xl" />}
             />
           ) : (
             <Icon className="text-2xl" />
           )}
         </Button>
       </PopoverTrigger>
-      <PopoverContent className="w-full">
+      <PopoverContent className="w-full px-0 py-0 overflow-hidden !top-0 !z-10">
         <SettingPopupWindow />
       </PopoverContent>
     </Popover>

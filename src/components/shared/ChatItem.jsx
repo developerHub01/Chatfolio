@@ -8,11 +8,11 @@ import {
   DropdownMenu,
   DropdownTrigger,
 } from "@nextui-org/react";
-import { BsThreeDotsVertical as ThreeDotIcon } from "react-icons/bs";
 
 import { useDispatch, useSelector } from "react-redux";
 import ChatItemWrapper from "./ChatItemWrapper";
 import { openContextMenu } from "../../redux/slices/uiStatesSlice";
+import { ThreeDotIcon } from "../../constants/icons";
 
 const myUserId = "1";
 
@@ -98,7 +98,7 @@ const ChatItemThreeDot = () => {
   );
 };
 
-const ChatItem = ({ chatId }) => {
+const ChatItem = ({ id, fullName, avatar }) => {
   const { activeTabId } = useSelector((state) => state.uiStates.sidebar);
   const { position } = useSelector((state) => state.uiStates.contextMenu);
   const dispatch = useDispatch();
@@ -110,16 +110,16 @@ const ChatItem = ({ chatId }) => {
       openContextMenu({
         position: { clientX, clientY },
         contextData: {
-          id: chatId,
+          id,
         },
       })
     );
   };
   return (
     <ChatItemWrapper onContextMenu={handleContextMenu}>
-      <ChatAvatar />
+      <ChatAvatar src={avatar} />
       <ChatInfo
-        name="Name one"
+        name={fullName}
         lastMessage="Hello"
         lastMessageAuthorId="1"
         lastMessageAuthorName="John Doe"

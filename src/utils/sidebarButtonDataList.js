@@ -1,12 +1,11 @@
-import { FaGear as SettingIcon } from "react-icons/fa6";
-import { IoBookmarkOutline as SaveIcon } from "react-icons/io5";
 import {
-  IoChatboxEllipsesOutline as ChatIcon,
-  IoCallOutline as CallIcon,
-} from "react-icons/io5";
-import { BsPostcard as StoryIcon } from "react-icons/bs";
-import { GoInbox as InboxIcon } from "react-icons/go";
-import { GrGroup as GroupIcon } from "react-icons/gr";
+  CallIcon,
+  ChatIcon,
+  GroupIcon,
+  InboxIcon,
+  SettingIcon,
+  StoryIcon,
+} from "../constants/icons";
 
 export const buttonListTop = [
   {

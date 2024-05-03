@@ -1,13 +1,8 @@
 import { Button, ButtonGroup, Tooltip } from "@nextui-org/react";
 import React from "react";
-import { IoCallOutline as CallIcon } from "react-icons/io5";
-import {
-  IoMdSearch as SearchIcon,
-  IoIosInformationCircle as InfoIcon,
-  IoIosArrowBack as LeftArrowIcon,
-} from "react-icons/io";
 import ChatAvatar from "../../shared/ChatAvatar";
 import IconButton from "../../shared/IconButton";
+import { CallIcon, InfoIcon, LeftArrowIcon, SearchIcon } from "../../../constants/icons";
 
 const buttonList = [
   {
@@ -33,7 +28,13 @@ const buttonList = [
 const ChatLeft = () => {
   return (
     <div className="flex justify-start items-center gap-3 flex-1">
-      <Button isIconOnly variant="light" size="sm" radius="full" color="primary">
+      <Button
+        isIconOnly
+        variant="light"
+        size="sm"
+        radius="full"
+        color="primary"
+      >
         <LeftArrowIcon className="text-xl" />
       </Button>
       <ChatAvatar size="15" />

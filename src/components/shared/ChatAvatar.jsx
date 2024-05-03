@@ -1,6 +1,6 @@
 import { Avatar, Badge } from "@nextui-org/react";
 import React from "react";
-import { RxAvatar as AvatarIcon } from "react-icons/rx";
+import { AvatarIcon } from "../../constants/icons";
 
 const ProfileAvatar = (props) => {
   const { size = "16", ...otherProps } = props;

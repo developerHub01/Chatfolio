@@ -6,9 +6,9 @@ import {
   PopoverTrigger,
 } from "@nextui-org/react";
 import React from "react";
-import { IoMdSearch as SearchIcon } from "react-icons/io";
 import { useDispatch, useSelector } from "react-redux";
 import { toggleActionIconButton } from "../../redux/slices/uiStatesSlice";
+import { SearchIcon } from "../../constants/icons";
 
 const IconButtonList = ({
   id,

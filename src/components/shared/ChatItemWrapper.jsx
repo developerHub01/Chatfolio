@@ -1,7 +1,8 @@
 import React, { lazy } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { motion } from "framer-motion";
-// import { BsArchive as ArchivedIcon } from "react-icons/bs";
+import { changeActiveChatOrStoryDetails } from "../../redux/slices/uiStatesSlice";
+import { ArchivedIcon } from "../../constants/icons";
 // import ContextMenu from "../shared/ContextMenu";
 
 // const menuItems = [
@@ -39,11 +40,17 @@ const chatAnim = {
   },
 };
 
-const ChatItemWrapper = ({ children, ...props }) => {
+const ChatItemWrapper = ({ children, id, ...props }) => {
   const { position } = useSelector((state) => state.uiStates.contextMenu);
+  const dispatch = useDispatch();
+  const handleClickChat = () => {
+    dispatch(changeActiveChatOrStoryDetails(id));
+    
+  };
   return (
     <motion.div
       {...chatAnim}
+      onClick={handleClickChat}
       className="w-full flex items-center gap-3 sm:gap-4 p-3 bg-background-900 hover:bg-background-800/40 select-none cursor-pointer rounded-lg md:rounded-xl border-b-2 border-background-800/30"
       {...props}
     >

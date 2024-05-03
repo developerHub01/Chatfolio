@@ -2,13 +2,19 @@ import React from "react";
 import MainListContainerHeader from "../../shared/MainListContainerHeader";
 import ListContainer from "../../shared/ListContainer";
 import StoryItem from "../story/StoryItem";
-import { IoMdAdd as AddIcon } from "react-icons/io";
 import MyStories from "../story/MyStories";
+import { AddIcon } from "../../../constants/icons";
 
 const buttonList = [
   {
     id: "newStory",
     Icon: AddIcon,
+  },
+];
+
+const storyData = [
+  {
+    id: "",
   },
 ];
 

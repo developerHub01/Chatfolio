@@ -1,9 +1,4 @@
-import {
-  MdOndemandVideo as VideoIcon,
-  MdOutlinePhotoSizeSelectActual as PhotoIcon,
-} from "react-icons/md";
-import { GrDocument as DocumentIcon } from "react-icons/gr";
-import { PiFileAudio as AudioIcon } from "react-icons/pi";
+import { AudioIcon, DocumentIcon, PhotoIcon, VideoIcon } from "../constants/icons";
 
 export const attatchmentButtonList = [
   {

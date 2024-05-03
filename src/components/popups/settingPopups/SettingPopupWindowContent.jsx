@@ -1,8 +1,9 @@
-import React from "react";
+import React, { lazy } from "react";
 import { useSelector } from "react-redux";
-import Profile from "../../specific/setting/Profile";
 import Personalization from "../../specific/setting/Personalization";
 import { buttonDataList } from "../../../utils/settingButtonDataList.js";
+
+const Profile = lazy(() => import("../../specific/setting/Profile"));
 
 const Content = () => {
   const { activeOption } = useSelector(
@@ -43,11 +44,11 @@ const SettingPopupWindowContent = () => {
     ({ id }) => id === activeOption
   );
   return (
-    <div className="w-full h-full p-4 overflow-hidden">
-      <h3 className="text-center justify-center items-center text-2xl font-bold capitalize p-1">
+    <div className="w-full h-full overflow-hidden p-3 flex flex-col gap-2">
+      <h3 className="text-center justify-center items-center text-2xl font-bold capitalize p-1 text-foreground-100 select-none">
         {activText}
       </h3>
-      <div className="w-full h-full px-2 py-5 overflow-y-auto p-5">
+      <div className="w-full h-full overflow-y-auto p-2">
         <Content />
       </div>
     </div>

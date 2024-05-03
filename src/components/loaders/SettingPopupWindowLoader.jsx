@@ -1,7 +1,7 @@
 import { Skeleton } from "@nextui-org/react";
 import React, { memo } from "react";
 
-const BigPopUpWindowLoader = () => {
+const SettingPopupWindowContent = () => {
   return (
     <div className="w-[70vw] h-[80vh] max-w-md max-h-[550px] overflow-hidden bg-foreground-50 text-foreground-500 flex flex-col p-3">
       <div className="overflow-hidden">
@@ -16,7 +16,7 @@ const BigPopUpWindowLoader = () => {
               {Array(4)
                 .fill(0)
                 .map((_, key) => (
-                  <Skeleton className="size-10 rounded-full" />
+                  <Skeleton key={key} className="size-10 rounded-full" />
                 ))}
             </div>
           </div>
@@ -42,4 +42,4 @@ const BigPopUpWindowLoader = () => {
   );
 };
 
-export default memo(BigPopUpWindowLoader);
+export default memo(SettingPopupWindowContent);

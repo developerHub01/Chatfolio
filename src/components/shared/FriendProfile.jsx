@@ -1,6 +1,6 @@
 import { Button } from "@nextui-org/react";
 import React from "react";
-import { IoMdClose as CloseIcon } from "react-icons/io";
+import { CloseIcon } from "../../constants/icons";
 
 const FriendProfile = () => {
   return (

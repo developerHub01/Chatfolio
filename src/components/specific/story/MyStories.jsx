@@ -1,12 +1,10 @@
 import React, { lazy } from "react";
 import StoryItem from "./StoryItem";
 import { Avatar, Badge, Tooltip } from "@nextui-org/react";
-import { RxAvatar as AvatarIcon } from "react-icons/rx";
-import { IoMdAdd as AddIcon } from "react-icons/io";
-import { FaRegEye as EyeIcon } from "react-icons/fa";
 import { useDispatch } from "react-redux";
 import { toggleAddStory } from "../../../redux/slices/uiStatesSlice";
 import { AnimatePresence, motion } from "framer-motion";
+import { AddIcon, AvatarIcon, EyeIcon } from "../../../constants/icons";
 
 const CreateStoryModal = lazy(() => import("./CreateStoryModal"));
 

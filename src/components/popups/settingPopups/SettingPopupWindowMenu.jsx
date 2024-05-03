@@ -6,11 +6,11 @@ import {
   DropdownTrigger,
 } from "@nextui-org/react";
 
-import { FiMenu as MenuIcon } from "react-icons/fi";
 import { useDispatch, useSelector } from "react-redux";
 import { changeSettingActiveOptions } from "../../../redux/slices/uiStatesSlice";
 import { memo } from "react";
 import { buttonDataList } from "../../../utils/settingButtonDataList";
+import { MenuIcon } from "../../../constants/icons";
 
 const SettingPopupWindowMenu = () => {
   const { activeOption } = useSelector(
@@ -27,6 +27,7 @@ const SettingPopupWindowMenu = () => {
           isIconOnly
           color="primary"
           aria-label="Menu"
+          radius="sm"
           className="absolute top-2 left-2 text-2xl"
         >
           <MenuIcon />

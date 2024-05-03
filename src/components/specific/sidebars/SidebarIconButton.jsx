@@ -1,9 +1,9 @@
 import { Avatar, Button, Tooltip } from "@nextui-org/react";
-import { MdAccountCircle as ProfileIcon } from "react-icons/md";
 import { useDispatch, useSelector } from "react-redux";
 import SidebarPopupButton from "./SidebarPopupButton";
 import { changeSidebarActiveTab } from "../../../redux/slices/uiStatesSlice";
 import { memo } from "react";
+import { ProfileIcon } from "../../../constants/icons";
 
 const SidebarButton = ({ id, content, Icon, type }) => {
   // getter active tab

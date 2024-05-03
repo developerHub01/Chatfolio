@@ -27,6 +27,10 @@ const initialState = {
     activeGifSubCategory: "all",
   },
   message: "",
+  // it is the user or chat-id or story-id data
+  activeChatOrStoryDetails: null,
+
+  previewImage: null,
 };
 
 const uiStatesSlice = createSlice({
@@ -97,6 +101,15 @@ const uiStatesSlice = createSlice({
     changeMessage: (state, action) => {
       state.message = action.payload;
     },
+
+    changeActiveChatOrStoryDetails: (state, action) => {
+      console.log(action);
+      state.activeChatOrStoryDetails = action.payload;
+    },
+
+    togglePreviewImage: (state, action) => {
+      state.previewImage = action.payload ? action.payload : null;
+    },
   },
 });
 
@@ -112,5 +125,7 @@ export const {
   changeActiveEmojiOrGifs,
   changeActiveEmojiOrGifsSubCategory,
   changeMessage,
+  changeActiveChatOrStoryDetails,
+  togglePreviewImage,
 } = uiStatesSlice.actions;
 export default uiStatesSlice.reducer;

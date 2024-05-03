@@ -6,12 +6,6 @@ import {
   Textarea,
 } from "@nextui-org/react";
 import React, { useState } from "react";
-import {
-  GrAttachment as AttachIcon,
-  GrMicrophone as MicrophoneIcon,
-} from "react-icons/gr";
-import { LuSendHorizonal as SendIcon } from "react-icons/lu";
-import { FaRegFaceGrinWide as FaceIcon } from "react-icons/fa6";
 import IconButton from "../../shared/IconButton";
 import { motion } from "framer-motion";
 import { useDispatch } from "react-redux";
@@ -21,6 +15,12 @@ import {
 } from "../../../redux/slices/uiStatesSlice";
 import EmojiGifsPopup from "./EmojiGifsPopup";
 import { attatchmentButtonList } from "../../../utils/AttachmentButtonDataList";
+import {
+  AttachIcon,
+  FaceIcon,
+  MicrophoneIcon,
+  SendIcon,
+} from "../../../constants/icons";
 
 const iconAnimation = {
   initial: {

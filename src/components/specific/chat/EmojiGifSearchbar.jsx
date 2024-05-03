@@ -1,6 +1,6 @@
 import { Input } from "@nextui-org/react";
 import React, { useState } from "react";
-import { IoMdSearch as SearchIcon } from "react-icons/io";
+import { SearchIcon } from "../../../constants/icons.js";
 const EmojiGifSearchbar = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const handleSearchQueryChange = (e) =>

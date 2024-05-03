@@ -4,10 +4,10 @@ import ChatItemWrapper from "../../shared/ChatItemWrapper";
 
 const StoryItem = ({ id, name = "My Stories", time }) => {
   return (
-    <ChatItemWrapper>
+    <ChatItemWrapper id={id}>
       <ChatAvatar />
       <div className="w-full">
-        <h4 className="text-base sm:text-lg font-bold truncate text-ellipsis">
+        <h4 className="text-base sm:text-lg text-foreground-50 font-bold truncate text-ellipsis">
           {name}
         </h4>
         <p className="text-sm sm:text-base w-full max-w-52 truncate text-ellipsis">
