@@ -11,6 +11,14 @@ const searchTypeList = [
     id: "email",
     text: "Email",
   },
+  {
+    id: "group",
+    text: "Group Name",
+  },
+  {
+    id: "channel",
+    text: "Channel Name",
+  },
 ];
 
 export default searchTypeList;
