@@ -30,6 +30,9 @@ export {
   IoNotifications as NotificationIcon,
   IoHelp as HelpIcon,
   IoBookmarkOutline as SaveIcon,
+  IoSunnyOutline as LightIcon,
+  IoMoonOutline as DarkIcon,
+  IoPlayOutline as PlayIcon,
 } from "react-icons/io5";
 
 export {
@@ -44,6 +47,7 @@ export {
   LuLaptop as GeneralIcon,
   LuZoomIn as ZoomInIcon,
   LuZoomOut as ZoomOutIcon,
+  LuImage as ImageIcon,
 } from "react-icons/lu";
 export {
   MdAccountCircle as ProfileIcon,
@@ -52,6 +56,14 @@ export {
   MdOutlineEdit as PersonalizationIcon,
 } from "react-icons/md";
 export { VscListFilter as FilterIcon } from "react-icons/vsc";
-export { PiFileAudio as AudioIcon } from "react-icons/pi";
-export { GoInbox as InboxIcon } from "react-icons/go";
+export {
+  PiFileAudio as AudioIcon,
+  PiComputerTower as SystemIcon,
+} from "react-icons/pi";
+export {
+  GoInbox as InboxIcon,
+  GoDot as DotOutlineIcon,
+  GoDotFill as DotFillIcon,
+} from "react-icons/go";
 export { SlSizeFullscreen as ResizeIcon } from "react-icons/sl";
+export { AiOutlineLoading3Quarters as LoaderIcon } from "react-icons/ai";

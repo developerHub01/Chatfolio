@@ -9,6 +9,7 @@ export const REGISTER_API = `${BASE_URL}/auth/register`;
 export const LOGIN_API = `${BASE_URL}/auth/login`;
 export const LOGOUT_API = `${BASE_URL}/auth/logout`;
 export const AUTH_USER_DATA_API = `${BASE_URL}/user/me`;
+export const USER_PREFERENCES_DATA_API = `${BASE_URL}/user/preferences`;
 export const UPDATE_USER_INFO_API = `${BASE_URL}/user/updateUserInfo`;
 
 export const GOOGLE_LOGIN_API = `${BASE_URL}/auth/google/callback`;

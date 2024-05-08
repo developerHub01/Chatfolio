@@ -4,7 +4,7 @@ import { lazy, Suspense } from "react";
 import LayoutLoader from "../components/loaders/LayoutLoader";
 
 const Home = lazy(() => import("../pages/Home"));
-const Chat = lazy(() => import("../pages/Chat"));
+// const Chat = lazy(() => import("../pages/Chat"));
 const Story = lazy(() => import("../pages/Story"));
 
 const router = createBrowserRouter([

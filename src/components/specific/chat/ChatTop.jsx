@@ -2,7 +2,12 @@ import { Button, ButtonGroup, Tooltip } from "@nextui-org/react";
 import React from "react";
 import ChatAvatar from "../../shared/ChatAvatar";
 import IconButton from "../../shared/IconButton";
-import { CallIcon, InfoIcon, LeftArrowIcon, SearchIcon } from "../../../constants/icons";
+import {
+  CallIcon,
+  InfoIcon,
+  LeftArrowIcon,
+  SearchIcon,
+} from "../../../constants/icons";
 
 const buttonList = [
   {
@@ -57,7 +62,7 @@ const ChatRight = () => {
 
 const ChatTop = () => {
   return (
-    <div className="w-full flex gap-3 justify-between items-center py-3 border-b-4">
+    <div className="w-full flex gap-3 justify-between items-center p-3 border-b-4 border-background-800">
       <ChatLeft />
       <ChatRight />
     </div>

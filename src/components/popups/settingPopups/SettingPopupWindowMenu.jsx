@@ -28,7 +28,8 @@ const SettingPopupWindowMenu = () => {
           color="primary"
           aria-label="Menu"
           radius="sm"
-          className="absolute top-2 left-2 text-2xl"
+          variant="bordered"
+          className="absolute top-2 left-2 text-2xl hover:text-white hover:bg-primary-500"
         >
           <MenuIcon />
         </Button>

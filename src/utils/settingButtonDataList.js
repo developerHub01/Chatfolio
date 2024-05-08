@@ -1,4 +1,13 @@
-import { ChatIcon, GeneralIcon, HelpIcon, NotificationIcon, PersonalizationIcon, ProfileIcon, ShortCutsIcon, StorageIcon, VideoIcon } from "../constants/icons";
+import {
+  ChatIcon,
+  GeneralIcon,
+  HelpIcon,
+  NotificationIcon,
+  PersonalizationIcon,
+  ProfileIcon,
+  ShortCutsIcon,
+  VideoIcon,
+} from "../constants/icons";
 
 export const buttonDataList = [
   {
@@ -30,16 +39,6 @@ export const buttonDataList = [
     id: "personalization",
     text: "personalization",
     Icon: PersonalizationIcon,
-  },
-  {
-    id: "storage",
-    text: "storage",
-    Icon: StorageIcon,
-  },
-  {
-    id: "shortcuts",
-    text: "shortcuts",
-    Icon: ShortCutsIcon,
   },
   {
     id: "help",

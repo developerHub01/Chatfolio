@@ -12,6 +12,7 @@ import useAuthPost from "../hooks/useAuthPost";
 import { useDispatch } from "react-redux";
 import { setUserData } from "../redux/slices/userAuthSlice";
 import LoginRegisterLoader from "./loaders/LoginRegisterLoader";
+import { layoutAnimProps } from "./animation/animationList";
 
 const googleIcon =
   "https://static-00.iconduck.com/assets.00/google-icon-2048x2048-czn3g8x8.png";
@@ -125,7 +126,10 @@ const LoginRegister = () => {
   const headingClasses = "h-12 text-center text-3xl font-bold text-primary-500";
   return (
     <Suspense fallback={<LoginRegisterLoader />}>
-      <div className="w-screen h-screen !overflow-hidden p-5 flex justify-center items-center flex-col">
+      <motion.div
+        {...layoutAnimProps}
+        className="w-screen h-screen !overflow-hidden p-5 flex justify-center items-center flex-col"
+      >
         <div className="absolute h-[150vh] w-[400px] flex gap-11 -skew-x-[30deg]">
           {Array(3)
             .fill(0)
@@ -292,7 +296,7 @@ const LoginRegister = () => {
             ))}
           </div>
         </motion.div>
-      </div>
+      </motion.div>
     </Suspense>
   );
 };

@@ -84,7 +84,7 @@ const ChatItemThreeDot = () => {
             New file
           </DropdownItem>
           <DropdownItem color="primary" key="new2">
-            New file
+            New file 1
           </DropdownItem>
           <DropdownItem color="primary" key="new3">
             New file

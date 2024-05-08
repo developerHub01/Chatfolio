@@ -1,14 +1,22 @@
 import {
   Button,
+  Dropdown,
+  DropdownItem,
+  DropdownMenu,
+  DropdownTrigger,
   Input,
   Popover,
   PopoverContent,
   PopoverTrigger,
 } from "@nextui-org/react";
-import React from "react";
+import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { toggleActionIconButton } from "../../redux/slices/uiStatesSlice";
-import { SearchIcon } from "../../constants/icons";
+import {
+  changeActiveSearchType,
+  toggleActionIconButton,
+} from "../../redux/slices/uiStatesSlice";
+import { SearchIcon, SettingIcon } from "../../constants/icons";
+import searchTypeList from "../../utils/searchTypeList";
 
 const IconButtonList = ({
   id,
@@ -23,9 +31,7 @@ const IconButtonList = ({
   const dispatch = useDispatch();
   const isActive = !!actionIconButtons[id];
 
-  const handleToggleButtonState = () => {
-    dispatch(toggleActionIconButton(id));
-  };
+  const handleToggleButtonState = () => dispatch(toggleActionIconButton(id));
 
   let iconAndTextButtonIconDirection = {};
   isIconInLeft
@@ -90,6 +96,15 @@ const MainListContainerHeader = ({
   headingText = "",
   isSearchBar = true,
 }) => {
+  const [isOpen, setIsOpen] = useState(false);
+  const { activeSearchType } = useSelector((state) => state.uiStates);
+  const [selected, setSelected] = useState("name");
+  const dispatch = useDispatch();
+
+  const handleCloseDropDown = () => setIsOpen((prev) => false);
+  const handleChangeDropDown = (newValue) =>
+    dispatch(changeActiveSearchType(newValue));
+
   return (
     <div className="w-full flex flex-col gap-2">
       <div className="w-full flex justify-between items-center gap-2">
@@ -104,22 +119,64 @@ const MainListContainerHeader = ({
       </div>
 
       {isSearchBar && (
-        <Input
-          variant="faded"
-          color="primary"
-          type="text"
-          placeholder="Search"
-          classNames={{
-            inputWrapper: [
-              "bg-foreground-900",
-              "dark:bg-background-900",
-              "text-foreground-100",
-            ],
-          }}
-          startContent={
-            <SearchIcon className="text-xl pointer-events-none flex-shrink-0 text-foreground-100" />
-          }
-        />
+        <div className="flex gap-2">
+          <Input
+            variant="faded"
+            color="primary"
+            type="text"
+            placeholder={`Search by ${activeSearchType}`}
+            classNames={{
+              inputWrapper: [
+                "bg-foreground-900",
+                "dark:bg-background-900",
+                "text-foreground-100",
+              ],
+            }}
+            startContent={
+              <SearchIcon className="text-xl pointer-events-none flex-shrink-0 text-foreground-100" />
+            }
+          />
+          <Dropdown
+            placement="bottom-end"
+            radius="sm"
+            onClose={handleCloseDropDown}
+          >
+            <DropdownTrigger>
+              <Button
+                isIconOnly
+                color="primary"
+                onClick={() => setIsOpen((prev) => !prev)}
+                className={`${
+                  isOpen
+                    ? "bg-primary-500 text-white"
+                    : "bg-transparent text-primary-500"
+                }   hover:bg-primary-500 hover:text-white ring-0`}
+                radius="sm"
+                style={{
+                  transform: `scale(${isOpen ? 0.8 : 1})`,
+                }}
+              >
+                <SettingIcon className="text-lg" />
+              </Button>
+            </DropdownTrigger>
+            <DropdownMenu
+              aria-label="search-type"
+              color="primary"
+              onAction={handleChangeDropDown}
+            >
+              {searchTypeList.map(({ id, text }) => (
+                <DropdownItem
+                  key={id}
+                  className={`capitalize ${
+                    activeSearchType === id ? "bg-primary-500 text-white" : ""
+                  }`}
+                >
+                  {text}
+                </DropdownItem>
+              ))}
+            </DropdownMenu>
+          </Dropdown>
+        </div>
       )}
     </div>
   );

@@ -5,7 +5,7 @@ import ChatContents from "./ChatContents";
 
 const ChatPage = () => {
   return (
-    <section className="h-screen w-full flex flex-col px-3">
+    <section className="h-screen w-full flex flex-col">
       <ChatTop />
       <ChatContents />
       <ChatBottom />

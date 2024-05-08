@@ -33,11 +33,10 @@ const SidebarPopupButton = ({ id, content, Icon, type }) => {
       placement="right"
       offset={-40}
       radius="md"
-      color="primary"
       onOpenChange={handleChangeSidebarActivePopup}
       className=""
       classNames={{
-        content: "bg-foreground",
+        content: "",
       }}
     >
       <PopoverTrigger>

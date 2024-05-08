@@ -5,7 +5,7 @@ import ChatBoxLoader from "./ChatBoxLoader";
 
 const LayoutLoader = () => {
   return (
-    <div className="w-full h-screen flex overflow-hidden bg-foreground-50">
+    <div className="w-full h-screen flex overflow-hidden bg-background-50">
       <SidebarLoader />
 
       <div className="w-full h-full grid grid-cols-12 divide-x-2 divide-white/5">

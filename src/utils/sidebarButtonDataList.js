@@ -44,7 +44,7 @@ export const buttonListBottom = [
   },
   {
     id: "profile",
-    Icon: "https://img.freepik.com/free-photo/young-bearded-man-with-striped-shirt_273609-5677.jpg",
+    Icon: "",
     content: "Profile",
     type: "img",
     isPopUp: true,

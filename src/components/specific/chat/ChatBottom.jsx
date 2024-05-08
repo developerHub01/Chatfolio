@@ -62,7 +62,7 @@ const ChatBottom = () => {
   };
 
   return (
-    <div className="w-full py-2 flex justify-between items-end gap-2 border-t-4">
+    <div className="w-full py-2 px-3 flex justify-between items-end gap-2 border-t-4 border-background-800">
       <Popover onOpenChange={handleOpenEmojiAndGifs}>
         <PopoverTrigger>
           <Button

@@ -12,10 +12,12 @@ import {
   Popover,
   PopoverContent,
   PopoverTrigger,
+  Skeleton,
   Textarea,
   Tooltip,
 } from "@nextui-org/react";
 import {
+  AvatarIcon,
   CheckIcon,
   EditIcon,
   LogoutIcon,
@@ -26,6 +28,10 @@ import { LOGOUT_API, UPDATE_USER_INFO_API } from "../../../constants/values";
 import { setUserData } from "../../../redux/slices/userAuthSlice";
 import useAuthPatch from "../../../hooks/useAuthPatch";
 import { togglePreviewImage } from "../../../redux/slices/uiStatesSlice";
+import { motion } from "framer-motion";
+import { animProps1 } from "../../animation/animationList";
+
+const MAX_AVATAR_SIZE = 5 * 1024 * 1024;
 
 const avatarOptions = [
   {
@@ -43,43 +49,74 @@ const avatarOptions = [
 ];
 
 const ProfileAvatar = () => {
+  const [isLoading, setIsLoading] = useState(false);
   const dispatch = useDispatch();
   const updateMethod = useAuthPatch();
   const { avatar } = useSelector((state) => state.authStates.user);
   const uploadProfileAvatarRef = useRef();
   const [avatarImageFile, setAvatarImageFile] = useState(null);
   const handleAvatar = async (key) => {
-    console.log(key);
     if (key === "viewAvatarImage") return dispatch(togglePreviewImage(avatar));
     else if (["changeAvatarImage", "uploadAvatarImage"].includes(key)) {
       if (uploadProfileAvatarRef?.current)
         uploadProfileAvatarRef.current.click();
       return;
     } else if (key === "removeAvatarImage") {
-      const data = await updateMethod(UPDATE_USER_INFO_API, {
-        avatar: "",
-      });
+      setIsLoading((prev) => true);
+      const formData = new FormData();
+      formData.append("avatar", "");
+
+      const { success, user } = await updateMethod(
+        UPDATE_USER_INFO_API,
+        formData
+      );
+      setIsLoading((prev) => false);
+      if (success) return dispatch(setUserData(user));
     }
   };
 
   const handleAvatarClick = () =>
     avatar && dispatch(togglePreviewImage(avatar));
 
-  const handleChangeAvatar = (e) => {
-    console.log(e);
+  const handleChangeAvatar = async (e) => {
+    const file = e.target.files[0];
+
+    if (!file) return;
+    if (file.size > MAX_AVATAR_SIZE) return;
+
+    setIsLoading((prev) => true);
+    const formData = new FormData();
+    formData.append("avatar", file);
+
+    const { success, user } = await updateMethod(
+      UPDATE_USER_INFO_API,
+      formData
+    );
+
+    setIsLoading((prev) => false);
+
+    if (success) return dispatch(setUserData(user));
   };
 
   return (
-    <div className="w-full flex flex-wrap justify-between items-center mb-4">
-      <Avatar
-        src={avatar}
-        onClick={handleAvatarClick}
-        isBordered
-        color="primary"
-        className={`w-20 h-20 sm:w-32 sm:h-32 rounded-full ring-4 ${
-          avatar ? "cursor-pointer" : ""
-        }`}
-      />
+    <motion.div
+      {...animProps1}
+      className="w-full flex flex-wrap justify-between items-center mb-4"
+    >
+      <div className="w-20 h-20 sm:w-32 sm:h-32 rounded-full">
+        {isLoading ? (
+          <Skeleton className="w-full h-full rounded-full" />
+        ) : (
+          <Avatar
+            src={avatar}
+            onClick={handleAvatarClick}
+            isBordered
+            radius="full"
+            color="primary"
+            className={`w-full h-full ring-4 ${avatar ? "cursor-pointer" : ""}`}
+          />
+        )}
+      </div>
       <Popover placement="bottom-end" showArrow={true} radius="sm">
         <PopoverTrigger>
           <Button
@@ -97,24 +134,15 @@ const ProfileAvatar = () => {
         <PopoverContent className="px-0 py-0 w-36">
           <Listbox aria-label="Actions" onAction={handleAvatar} color="primary">
             {avatar ? (
-              <React.Fragment>
-                {/*  If already any avatar exist */}
-                {avatarOptions.map(({ id, text }, _) => (
-                  <ListboxItem key={id} className="text-capitalize ">
-                    {text}
-                  </ListboxItem>
-                ))}
-              </React.Fragment>
-            ) : (
-              <React.Fragment>
-                {/*  If no avatar exist */}
-                <ListboxItem
-                  key="uploadAvatarImage"
-                  className="text-capitalize "
-                >
-                  Upload Image
+              avatarOptions.map(({ id, text }, _) => (
+                <ListboxItem key={id} className="text-capitalize ">
+                  {text}
                 </ListboxItem>
-              </React.Fragment>
+              ))
+            ) : (
+              <ListboxItem key="uploadAvatarImage" className="text-capitalize ">
+                Upload Image
+              </ListboxItem>
             )}
           </Listbox>
         </PopoverContent>
@@ -126,15 +154,17 @@ const ProfileAvatar = () => {
         name="uploadProfileAvatar"
         id="uploadProfileAvatar"
         hidden
-        value={avatarImageFile}
+        value={avatarImageFile || ""}
         onChange={handleChangeAvatar}
         ref={uploadProfileAvatarRef}
+        accept="image/*"
       />
-    </div>
+    </motion.div>
   );
 };
 
 const UserDetailsListItem = ({ detailsType }) => {
+  const [isLoading, setIsLoading] = useState(false);
   const { user } = useSelector((state) => state.authStates);
   const detailsItemData = user[detailsType];
 
@@ -148,6 +178,7 @@ const UserDetailsListItem = ({ detailsType }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setIsLoading((prev) => true);
     if (updatedDetailsItemData && updatedDetailsItemData !== detailsItemData) {
       const data = await updateMethod(UPDATE_USER_INFO_API, {
         [detailsType]: updatedDetailsItemData,
@@ -158,6 +189,7 @@ const UserDetailsListItem = ({ detailsType }) => {
       } else setUpdatedDetailsItemData((prev) => detailsItemData);
     }
     setIsEditable((prev) => false);
+    setIsLoading((prev) => false);
   };
   const handleChange = (e) => {
     detailsType === "bio"
@@ -171,7 +203,10 @@ const UserDetailsListItem = ({ detailsType }) => {
   const handleKeyDown = (e) => e.key === "Enter" && e.preventDefault();
 
   return (
-    <div className="w-full py-1 flex gap-2 justify-between items-center">
+    <motion.div
+      {...animProps1}
+      className="w-full py-1 flex gap-2 justify-between items-center"
+    >
       {isEdiable ? (
         <div className="w-full flex flex-col gap-2">
           <form
@@ -237,35 +272,46 @@ const UserDetailsListItem = ({ detailsType }) => {
       ) : (
         <React.Fragment>
           {detailsType === "fullName" ? (
-            <h1 className="text-lg sm:text-xl font-bold text-foreground-200">
-              {detailsItemData}
-            </h1>
+            isLoading ? (
+              <Skeleton className="w-full h-12 rounded-md" />
+            ) : (
+              <h1 className="text-lg sm:text-xl font-bold text-foreground-200">
+                {detailsItemData}
+              </h1>
+            )
+          ) : isLoading ? (
+            <Skeleton className="w-full h-8 rounded-md" />
           ) : (
             <p className="text-base text-foreground-200">{detailsItemData}</p>
           )}
-          <Tooltip
-            content="Edit"
-            color="primary"
-            radius="sm"
-            showArrow
-            size="sm"
-          >
-            <Button
-              type="button"
-              isIconOnly
-              radius="full"
-              size="sm"
+
+          {isLoading ? (
+            <Skeleton className="size-10 rounded-full flex-shrink-0" />
+          ) : (
+            <Tooltip
+              content="Edit"
               color="primary"
-              onClick={handleToggleEdit}
-              className="group bg-transparent text-primary-500 hover:text-white relative"
+              radius="sm"
+              showArrow
+              size="sm"
             >
-              <span className="absolute w-full h-full bg-primary-500 rounded-full z-0 scale-0 group-hover:scale-100 transition-all duration-75 opacity-0 group-hover:opacity-100"></span>
-              <EditIcon className="text-base sm:text-lg relative z-10" />
-            </Button>
-          </Tooltip>
+              <Button
+                type="button"
+                isIconOnly
+                radius="full"
+                size="sm"
+                color="primary"
+                onClick={handleToggleEdit}
+                className="group bg-transparent text-primary-500 hover:text-white relative"
+              >
+                <span className="absolute w-full h-full bg-primary-500 rounded-full z-0 scale-0 group-hover:scale-100 transition-all duration-75 opacity-0 group-hover:opacity-100"></span>
+                <EditIcon className="text-base sm:text-lg relative z-10" />
+              </Button>
+            </Tooltip>
+          )}
         </React.Fragment>
       )}
-    </div>
+    </motion.div>
   );
 };
 
@@ -277,20 +323,22 @@ const LogoutButton = () => {
     if (data?.success) dispatch(setUserData(null));
   };
   return (
-    <Button
-      onClick={handleLogout}
-      startContent={<LogoutIcon className="text-xl" />}
-      radius="sm"
-      color="primary"
-      size="md"
-      className="w-full max-w-48 text-base gap-3"
-    >
-      Logout
-    </Button>
+    <motion.div {...animProps1}>
+      <Button
+        onClick={handleLogout}
+        startContent={<LogoutIcon className="text-xl" />}
+        radius="sm"
+        color="primary"
+        size="md"
+        className="w-full max-w-48 text-base gap-3"
+      >
+        Logout
+      </Button>
+    </motion.div>
   );
 };
 
-const Profile = () => {
+const ProfileSection = () => {
   return (
     <Suspense fallback={<SettingPopupWindowLoader />}>
       <div className="w-full flex flex-col justify-center items-center gap-2 sm:gap-4">
@@ -307,4 +355,4 @@ const Profile = () => {
   );
 };
 
-export default Profile;
+export default ProfileSection;

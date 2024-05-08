@@ -4,7 +4,8 @@ import LayoutLoader from "./loaders/LayoutLoader";
 import MainPage from "../MainPage";
 
 const ThemeManager = () => {
-  const { theme } = useSelector((state) => state.uiStates);
+  const { theme } =
+    useSelector((state) => state.preferencesState.preference) || "light";
   return (
     <main className={theme} onContextMenu={(e) => e.preventDefault()}>
       <Suspense fallback={<LayoutLoader />}>
