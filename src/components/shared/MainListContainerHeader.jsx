@@ -11,7 +11,6 @@ import {
   PopoverTrigger,
   ScrollShadow,
   Skeleton,
-  User,
 } from "@nextui-org/react";
 import React, { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
