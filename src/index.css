@@ -13,9 +13,12 @@
     @apply text-2xl font-bold capitalize truncate text-ellipsis text-foreground-50;
   }
   .h3 {
-    @apply text-base sm:text-lg font-bold truncate text-ellipsis text-foreground-100;
+    @apply text-base md:text-lg font-bold truncate text-ellipsis text-foreground-100;
+  }
+  .h4 {
+    @apply text-sm sm:text-base font-bold truncate text-ellipsis text-foreground-100;
   }
   .text {
-    @apply text-sm sm:text-base truncate text-ellipsis text-foreground-300;
+    @apply text-sm sm:text-base truncate text-ellipsis text-foreground-300 font-medium;
   }
 }

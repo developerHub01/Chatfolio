@@ -1,4 +1,5 @@
 import {
+  Avatar,
   Button,
   Dropdown,
   DropdownItem,
@@ -8,15 +9,30 @@ import {
   Popover,
   PopoverContent,
   PopoverTrigger,
+  ScrollShadow,
+  Skeleton,
+  User,
 } from "@nextui-org/react";
-import React, { useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { toggleActionIconButton } from "../../redux/slices/uiStatesSlice";
+import {
+  CloseIcon,
+  NotFoundIcon,
+  SearchIcon,
+  SettingIcon,
+} from "../../constants/icons";
+import searchTypeList from "../../utils/searchTypeList";
 import {
   changeActiveSearchType,
-  toggleActionIconButton,
-} from "../../redux/slices/uiStatesSlice";
-import { SearchIcon, SettingIcon } from "../../constants/icons";
-import searchTypeList from "../../utils/searchTypeList";
+  updateSearchResult,
+} from "../../redux/slices/searchChatSlice";
+import { SEARCH_CHAT_API } from "../../constants/values";
+import useAuthPost from "../../hooks/useAuthPost";
+import { AnimatePresence, motion } from "framer-motion";
+import { animProps1, layoutAnimProps } from "../animation/animationList";
+
+const MAX_CHAT_PER_SEARCH = 6;
 
 const IconButtonList = ({
   id,
@@ -91,19 +107,193 @@ const IconButtonList = ({
   );
 };
 
+const SearchResultLoadingSkeleton = () => {
+  return (
+    <>
+      {Array(MAX_CHAT_PER_SEARCH)
+        .fill(0)
+        .map((item, key) => (
+          <motion.div
+            {...animProps1}
+            className="w-full flex gap-3 items-center"
+            key={key}
+          >
+            <Skeleton className="size-12 rounded-full flex-shrink-0 flex-grow-0" />
+            <div className="w-full flex flex-col gap-2">
+              <Skeleton
+                className="h-5 rounded-full"
+                style={{
+                  width: `${30 + Math.random() * (100 - 30)}%`,
+                }}
+              />
+              <Skeleton
+                className="w-24 h-3 rounded-full"
+                style={{
+                  width: `${10 + Math.random() * (50 - 10)}%`,
+                }}
+              />
+            </div>
+          </motion.div>
+        ))}
+    </>
+  );
+};
+
+const SearchResult = () => {
+  const {
+    isLoading = true,
+    isError,
+    data: chatList,
+  } = useSelector((state) => state.searchChatState.searchResult);
+
+  return (
+    <motion.div
+      {...layoutAnimProps}
+      exit={{
+        opacity: 0,
+        filter: "blur(5px)",
+      }}
+      className="w-full absolute top-12 left-1/2 -translate-x-1/2 z-20 flex"
+    >
+      <div className="w-full bg-background-900 drop-shadow-2xl rounded-lg p-2 border-background-800/50 border-2 flex justify-center items-center overflow-hidden">
+        <ScrollShadow
+          hideScrollBar
+          className="w-full max-h-96 p-1 flex flex-col gap-3"
+          size={3}
+        >
+          {!!chatList.length || (
+            <motion.h4
+              {...animProps1}
+              className="capitalize text-lg sm:text-xl text-foreground-200 text-center px-2 py-4 select-none flex justify-center items-center gap-2"
+            >
+              <NotFoundIcon className="text-3xl text-primary-500" /> No result
+              found
+            </motion.h4>
+          )}
+          {chatList.map(
+            ({ _id, avatar, fullName, name, userName, members = [] }, i) => (
+              <motion.div
+                {...animProps1}
+                className="w-full flex gap-3 items-center hover:bg-background-800 px-2 py-2 sm:py-3 rounded-md cursor-pointer duration-100 transition-all ease-in-out"
+                key={`${_id}_${i}`}
+              >
+                <Avatar
+                  radius="full"
+                  src={avatar}
+                  name={fullName || name}
+                  isBordered
+                  color="primary"
+                  className="w-12 h-12 flex-shrink-0 flex-grow-0"
+                />
+                <div className="w-full flex flex-col gap-1 overflow-hidden">
+                  <h4 className="h4 truncate">{fullName || name}</h4>
+                  <p className="text">
+                    {userName ||
+                      `${
+                        members?.length >= 1000
+                          ? `${Number(members?.length?.toFixed(2))} K`
+                          : members?.length
+                      } members`}
+                  </p>
+                </div>
+              </motion.div>
+            )
+          )}
+          {isLoading && <SearchResultLoadingSkeleton />}
+          {isError && (
+            <p className="text-center text-lg text-red-500 font-bold">
+              {isError}
+            </p>
+          )}
+        </ScrollShadow>
+      </div>
+      {/* <div className="w-14 h-full pointer-events-none"></div> */}
+    </motion.div>
+  );
+};
+
 const MainListContainerHeader = ({
   buttonList = [],
   headingText = "",
   isSearchBar = true,
 }) => {
+  const { activeSearchType } = useSelector((state) => state.searchChatState);
+  const [searchPage, setSearchPage] = useState(0);
   const [isOpen, setIsOpen] = useState(false);
-  const { activeSearchType } = useSelector((state) => state.uiStates);
-  const [selected, setSelected] = useState("name");
+  const [searchTerm, setSearchTerm] = useState("");
   const dispatch = useDispatch();
+  const postDataMethod = useAuthPost();
 
-  const handleCloseDropDown = () => setIsOpen((prev) => false);
+  const searchSectionRef = useRef(null);
+
+  useEffect(() => {
+    const handleClick = (e) => {
+      if (searchSectionRef?.current?.contains(e?.target)) return;
+
+      setSearchTerm((prev) => "");
+    };
+    document.addEventListener("click", handleClick);
+    return () => document.removeEventListener("click", handleClick);
+  }, []);
+
+  const handleDropDownState = (value) => setIsOpen((prev) => value);
+
   const handleChangeDropDown = (newValue) =>
     dispatch(changeActiveSearchType(newValue));
+
+  const fetchSearchData = async () => {
+    dispatch(
+      updateSearchResult({
+        isLoading: true,
+        isError: false,
+        data: [],
+      })
+    );
+
+    if (!searchTerm)
+      return dispatch(
+        updateSearchResult({
+          isLoading: false,
+          isError: false,
+          data: [],
+        })
+      );
+
+    try {
+      const res = await postDataMethod(
+        `${SEARCH_CHAT_API}?page=${searchPage}&number=${MAX_CHAT_PER_SEARCH}`,
+        {
+          searchType: activeSearchType,
+          searchTerm,
+        }
+      );
+
+      const data = await res.data;
+
+      dispatch(
+        updateSearchResult({
+          isLoading: false,
+          isError: false,
+          data: data,
+        })
+      );
+    } catch (error) {
+      dispatch(
+        updateSearchResult({
+          isLoading: false,
+          isError: error.message,
+          data: [],
+        })
+      );
+    }
+  };
+  useEffect(() => {
+    fetchSearchData();
+  }, [searchTerm]);
+
+  const handleClearInput = () => setSearchTerm((prev) => "");
+
+  const handleChangeInput = (value) => setSearchTerm((prev) => value);
 
   return (
     <div className="w-full flex flex-col gap-2">
@@ -117,14 +307,15 @@ const MainListContainerHeader = ({
           </div>
         )}
       </div>
-
       {isSearchBar && (
-        <div className="flex gap-2">
+        <div className="flex gap-2 relative" ref={searchSectionRef}>
           <Input
             variant="faded"
             color="primary"
             type="text"
             placeholder={`Search by ${activeSearchType}`}
+            onValueChange={handleChangeInput}
+            value={searchTerm}
             classNames={{
               inputWrapper: [
                 "bg-foreground-900",
@@ -135,22 +326,36 @@ const MainListContainerHeader = ({
             startContent={
               <SearchIcon className="text-xl pointer-events-none flex-shrink-0 text-foreground-100" />
             }
+            endContent={
+              searchTerm && (
+                <Button
+                  isIconOnly
+                  size="sm"
+                  color="primary"
+                  radius="full"
+                  variant="solid"
+                  className="bg-transparent hover:bg-background-700 text-white"
+                  onClick={handleClearInput}
+                >
+                  <CloseIcon className="text-xl pointer-events-none flex-shrink-0 text-foreground-100" />
+                </Button>
+              )
+            }
           />
           <Dropdown
             placement="bottom-end"
             radius="sm"
-            onClose={handleCloseDropDown}
+            onOpenChange={handleDropDownState}
           >
             <DropdownTrigger>
               <Button
                 isIconOnly
                 color="primary"
-                onClick={() => setIsOpen((prev) => !prev)}
                 className={`${
                   isOpen
                     ? "bg-primary-500 text-white"
                     : "bg-transparent text-primary-500"
-                }   hover:bg-primary-500 hover:text-white ring-0`}
+                } w-10 h-10  hover:bg-primary-500 hover:text-white ring-0`}
                 radius="sm"
                 style={{
                   transform: `scale(${isOpen ? 0.8 : 1})`,
@@ -164,7 +369,7 @@ const MainListContainerHeader = ({
               color="primary"
               onAction={handleChangeDropDown}
             >
-              {searchTypeList.map(({ id, text }) => (
+              {searchTypeList.map(({ id, text }, i) => (
                 <DropdownItem
                   key={id}
                   className={`capitalize ${
@@ -176,6 +381,7 @@ const MainListContainerHeader = ({
               ))}
             </DropdownMenu>
           </Dropdown>
+          <AnimatePresence>{searchTerm && <SearchResult />}</AnimatePresence>
         </div>
       )}
     </div>

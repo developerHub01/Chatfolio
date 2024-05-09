@@ -1,6 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { EMOJI, GIFS } from "../../constants/values";
-import searchTypeList from "../../utils/searchTypeList";
 
 const initialState = {
   theme: "light",
@@ -27,7 +26,6 @@ const initialState = {
     activeEmojiSubCategory: "all",
     activeGifSubCategory: "all",
   },
-  activeSearchType: "name",
   message: "",
   // it is the user or chat-id or story-id data
   activeChatOrStoryDetails: null,
@@ -100,13 +98,6 @@ const uiStatesSlice = createSlice({
         ? activeGifSubCategory
         : "all";
     },
-    changeActiveSearchType: (state, action) => {
-      state.activeSearchType = searchTypeList
-        .map(({ id }) => id)
-        .includes(action.payload)
-        ? action.payload
-        : "people";
-    },
     changeMessage: (state, action) => {
       state.message = action.payload;
     },
@@ -131,7 +122,6 @@ export const {
   closeContextMenu,
   changeActiveEmojiOrGifs,
   changeActiveEmojiOrGifsSubCategory,
-  changeActiveSearchType,
   changeMessage,
   changeActiveChatOrStoryDetails,
   togglePreviewImage,
