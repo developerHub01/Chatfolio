@@ -8,6 +8,8 @@ import {
   LeftArrowIcon,
   SearchIcon,
 } from "../../../constants/icons";
+import { useDispatch, useSelector } from "react-redux";
+import { setActiveChatState } from "../../../redux/slices/activeChatSlice";
 
 const buttonList = [
   {
@@ -31,6 +33,13 @@ const buttonList = [
 ];
 
 const ChatLeft = () => {
+  const { activeChat } = useSelector((state) => state.activeChatStates);
+  console.log(activeChat);
+  const dispatch = useDispatch();
+  const handleBack = () => {
+    dispatch(setActiveChatState());
+  };
+  const { fullName, avatar, name: chatName } = activeChat || {};
   return (
     <div className="flex justify-start items-center gap-3 flex-1">
       <Button
@@ -39,12 +48,25 @@ const ChatLeft = () => {
         size="sm"
         radius="full"
         color="primary"
+        onClick={handleBack}
       >
         <LeftArrowIcon className="text-xl" />
       </Button>
-      <ChatAvatar size="15" />
+      <ChatAvatar
+        size="15"
+        src={avatar}
+        name={fullName || chatName}
+        isActive={false}
+      />
       <div className="w-full flex-1 overflow-hidden flex flex-col">
-        <h3 className="h3">Full Name</h3>
+        <h3
+          className="h3"
+          style={{
+            textTransform: "capitalize",
+          }}
+        >
+          {fullName || chatName}
+        </h3>
         <p className="text-sm max-w-52">Active</p>
       </div>
     </div>

@@ -5,7 +5,7 @@ import MainPage from "../MainPage";
 
 const ThemeManager = () => {
   const { theme } =
-    useSelector((state) => state.preferencesState.preference) || "light";
+    useSelector((state) => state.preferencesStates.preference) || "light";
   return (
     <main className={theme} onContextMenu={(e) => e.preventDefault()}>
       <Suspense fallback={<LayoutLoader />}>

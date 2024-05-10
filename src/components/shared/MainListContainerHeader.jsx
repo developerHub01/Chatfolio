@@ -1,6 +1,7 @@
 import {
   Avatar,
   Button,
+  ButtonGroup,
   Dropdown,
   DropdownItem,
   DropdownMenu,
@@ -15,6 +16,7 @@ import {
 import React, { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { toggleActionIconButton } from "../../redux/slices/uiStatesSlice";
+import { setActiveChatState } from "../../redux/slices/activeChatSlice.js";
 import {
   CloseIcon,
   NotFoundIcon,
@@ -25,6 +27,7 @@ import searchTypeList from "../../utils/searchTypeList";
 import {
   changeActiveSearchType,
   updateSearchResult,
+  changeFilterType,
 } from "../../redux/slices/searchChatSlice";
 import { SEARCH_CHAT_API } from "../../constants/values";
 import useAuthPost from "../../hooks/useAuthPost";
@@ -32,6 +35,17 @@ import { AnimatePresence, motion } from "framer-motion";
 import { animProps1, layoutAnimProps } from "../animation/animationList";
 
 const MAX_CHAT_PER_SEARCH = 6;
+
+const searchFilterTypeList = [
+  {
+    id: "all",
+    text: "All",
+  },
+  {
+    id: "connected",
+    text: "Connected",
+  },
+];
 
 const IconButtonList = ({
   id,
@@ -115,7 +129,7 @@ const SearchResultLoadingSkeleton = () => {
           <motion.div
             {...animProps1}
             className="w-full flex gap-3 items-center"
-            key={key}
+            key={key + 1}
           >
             <Skeleton className="size-12 rounded-full flex-shrink-0 flex-grow-0" />
             <div className="w-full flex flex-col gap-2">
@@ -140,10 +154,19 @@ const SearchResultLoadingSkeleton = () => {
 
 const SearchResult = () => {
   const {
-    isLoading = true,
-    isError,
-    data: chatList,
-  } = useSelector((state) => state.searchChatState.searchResult);
+    activeSearchFilterType,
+    searchResult: { isLoading = true, isError, data: chatList },
+  } = useSelector((state) => state.searchChatStates);
+
+  const dispatch = useDispatch();
+
+  const handleClickSearchItem = (activeChat) => {
+    dispatch(setActiveChatState(activeChat));
+    dispatch(updateSearchResult());
+  };
+  const handleChangeFilterType = (type) => () => {
+    dispatch(changeFilterType(type));
+  };
 
   return (
     <motion.div
@@ -154,13 +177,28 @@ const SearchResult = () => {
       }}
       className="w-full absolute top-12 left-1/2 -translate-x-1/2 z-20 flex"
     >
-      <div className="w-full bg-background-900 drop-shadow-2xl rounded-lg p-2 border-background-800/50 border-2 flex justify-center items-center overflow-hidden">
+      <div className="w-full bg-background-900 drop-shadow-2xl rounded-lg p-2 border-background-800/50 border-2 flex flex-col justify-center items-center overflow-hidden">
+        <div className="w-full flex gap-2 items-center justify-start pb-2">
+          {searchFilterTypeList.map(({ id, text }) => (
+            <Button
+              key={id}
+              size="sm"
+              radius="sm"
+              className={`text-sm ${
+                activeSearchFilterType === id ? "bg-primary-500 scale-85" : ""
+              } hover:scale-85 hover:bg-primary-500 text-white`}
+              onClick={handleChangeFilterType(id)}
+            >
+              {text}
+            </Button>
+          ))}
+        </div>
         <ScrollShadow
           hideScrollBar
           className="w-full max-h-96 p-1 flex flex-col gap-3"
           size={3}
         >
-          {!!chatList.length || (
+          {!isLoading && !chatList.length && (
             <motion.h4
               {...animProps1}
               className="capitalize text-lg sm:text-xl text-foreground-200 text-center px-2 py-4 select-none flex justify-center items-center gap-2"
@@ -174,7 +212,8 @@ const SearchResult = () => {
               <motion.div
                 {...animProps1}
                 className="w-full flex gap-3 items-center hover:bg-background-800 px-2 py-2 sm:py-3 rounded-md cursor-pointer duration-100 transition-all ease-in-out"
-                key={`${_id}_${i}`}
+                key={_id || i + 1}
+                onClick={() => handleClickSearchItem(chatList[i])}
               >
                 <Avatar
                   radius="full"
@@ -185,7 +224,7 @@ const SearchResult = () => {
                   className="w-12 h-12 flex-shrink-0 flex-grow-0"
                 />
                 <div className="w-full flex flex-col gap-1 overflow-hidden">
-                  <h4 className="h4 truncate">{fullName || name}</h4>
+                  <h4 className="h4 truncate capitalize">{fullName || name}</h4>
                   <p className="text">
                     {userName ||
                       `${
@@ -216,7 +255,10 @@ const MainListContainerHeader = ({
   headingText = "",
   isSearchBar = true,
 }) => {
-  const { activeSearchType } = useSelector((state) => state.searchChatState);
+  const { activeSearchType, activeSearchFilterType } = useSelector(
+    (state) => state.searchChatStates
+  );
+
   const [searchPage, setSearchPage] = useState(0);
   const [isOpen, setIsOpen] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
@@ -288,7 +330,7 @@ const MainListContainerHeader = ({
   };
   useEffect(() => {
     fetchSearchData();
-  }, [searchTerm]);
+  }, [searchTerm, activeSearchFilterType]);
 
   const handleClearInput = () => setSearchTerm((prev) => "");
 
@@ -300,8 +342,8 @@ const MainListContainerHeader = ({
         <h2 className="h2">{headingText}</h2>
         {!!buttonList.length && (
           <div className="flex gap-2 justify-center items-center">
-            {buttonList.map((item) => (
-              <IconButtonList key={item.id} {...item} />
+            {buttonList.map((item, i) => (
+              <IconButtonList key={item.id || i + 1} {...item} />
             ))}
           </div>
         )}
@@ -370,7 +412,7 @@ const MainListContainerHeader = ({
             >
               {searchTypeList.map(({ id, text }, i) => (
                 <DropdownItem
-                  key={id}
+                  key={id || i + 1}
                   className={`capitalize ${
                     activeSearchType === id ? "bg-primary-500 text-white" : ""
                   }`}

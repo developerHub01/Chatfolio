@@ -16,11 +16,8 @@ const ProfileAvatar = (props) => {
   );
 };
 
-const avatarPic =
-  "https://t4.ftcdn.net/jpg/03/26/98/51/360_F_326985142_1aaKcEjMQW6ULp6oI9MYuv8lN9f8sFmj.jpg";
-
 const ChatAvatar = ({
-  src = avatarPic,
+  src,
   name = "Avatar",
   isActive = false,
   size = "16",

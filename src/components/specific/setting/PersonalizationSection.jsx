@@ -261,7 +261,7 @@ const PersonalizationSection = () => {
     wallpaperActive,
     wallpaperMode,
     wallpaperPosition,
-  } = useSelector((state) => state.preferencesState.preference);
+  } = useSelector((state) => state.preferencesStates.preference);
   return (
     <Suspense fallback={<SettingPopupWindowLoader />}>
       <div className="w-full flex flex-col gap-4 pb-4">
