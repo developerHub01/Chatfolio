@@ -1,4 +1,10 @@
-import { Button, Input, ScrollShadow } from "@nextui-org/react";
+import {
+  Button,
+  Input,
+  ScrollShadow,
+  Select,
+  SelectItem,
+} from "@nextui-org/react";
 import React, { Suspense, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { EyeIcon, EyeSlashIcon } from "../constants/icons";
@@ -44,7 +50,18 @@ const formInitialValues = {
   userName: "",
   email: "",
   password: "",
+  gender: "male",
 };
+const genderData = [
+  {
+    id: "male",
+    text: "Male",
+  },
+  {
+    id: "female",
+    text: "Female",
+  },
+];
 
 const LoginRegister = () => {
   const dispatch = useDispatch();
@@ -69,6 +86,7 @@ const LoginRegister = () => {
         (!formData.fullName ||
           !formData.email ||
           !formData.password ||
+          !formData.gender ||
           !formData.userName))
     ) {
       return;
@@ -176,7 +194,7 @@ const LoginRegister = () => {
             <ScrollShadow
               hideScrollBar
               size={2}
-              className="w-full h-full flex flex-col gap-3 sm:gap-4"
+              className="w-full h-full flex flex-col gap-3 sm:gap-4 px-1"
             >
               <AnimatePresence>
                 {isLoginTab || (
@@ -210,6 +228,38 @@ const LoginRegister = () => {
                         onChange={handleChange}
                         required
                       />
+                    </motion.div>
+                    <motion.div {...inputAnimProps} className="w-full">
+                      <Select
+                        label=""
+                        placeholder="Gender"
+                        size="md"
+                        radius="sm"
+                        variant="bordered"
+                        color="primary"
+                        name="gender"
+                        value={formData["gender"]}
+                        onChange={handleChange}
+                        className="w-full text-primary-500"
+                        classNames={{
+                          label: "hidden",
+                          innerWrapper: "!pt-0 border-primary-500",
+                          trigger: "!hover:border-primary-500",
+                        }}
+                        isRequired
+                      >
+                        {genderData.map(({ id, text }) => (
+                          <SelectItem
+                            key={id}
+                            value={id}
+                            variant="solid"
+                            color="primary"
+                            className="w-full !text-capitalize text-foreground-300"
+                          >
+                            {text}
+                          </SelectItem>
+                        ))}
+                      </Select>
                     </motion.div>
                   </>
                 )}
@@ -256,7 +306,7 @@ const LoginRegister = () => {
                 type="submit"
                 color="primary"
                 radius="sm"
-                className="w-full"
+                className="w-full flex-shrink-0"
               >
                 {isLoginTab ? "Login" : "Register"}
               </Button>
