@@ -1,8 +1,8 @@
 import { Avatar, Badge } from "@nextui-org/react";
-import React from "react";
+import React, { memo } from "react";
 import { AvatarIcon } from "../../constants/icons";
 
-const ProfileAvatar = (props) => {
+const ProfileAvatar = memo((props) => {
   const { size = "16", ...otherProps } = props;
   return (
     <Avatar
@@ -14,32 +14,29 @@ const ProfileAvatar = (props) => {
       fallback={<AvatarIcon className="text-5xl" />}
     />
   );
-};
+});
 
-const ChatAvatar = ({
-  src,
-  name = "Avatar",
-  isActive = false,
-  size = "16",
-}) => {
-  return (
-    <>
-      {isActive ? (
-        <Badge
-          color="success"
-          content=""
-          placement="bottom-right"
-          shape="circle"
-          size="lg"
-          className="flex-grow-0 flex-shrink-0"
-        >
+const ChatAvatar = memo(
+  ({ src, name = "Avatar", isActive = false, size = "16" }) => {
+    return (
+      <>
+        {isActive ? (
+          <Badge
+            color="success"
+            content=""
+            placement="bottom-right"
+            shape="circle"
+            size="lg"
+            className="flex-grow-0 flex-shrink-0"
+          >
+            <ProfileAvatar src={src} name={name} size={size} />
+          </Badge>
+        ) : (
           <ProfileAvatar src={src} name={name} size={size} />
-        </Badge>
-      ) : (
-        <ProfileAvatar src={src} name={name} size={size} />
-      )}
-    </>
-  );
-};
+        )}
+      </>
+    );
+  }
+);
 
 export default ChatAvatar;

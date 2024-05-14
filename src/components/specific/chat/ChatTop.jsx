@@ -34,7 +34,6 @@ const buttonList = [
 
 const ChatLeft = () => {
   const { activeChat } = useSelector((state) => state.activeChatStates);
-  console.log(activeChat);
   const dispatch = useDispatch();
   const handleBack = () => {
     dispatch(setActiveChatState());

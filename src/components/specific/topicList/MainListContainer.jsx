@@ -4,9 +4,6 @@ import ChatListLoader from "../../loaders/ChatListLoader";
 
 const ChatListContainer = lazy(() => import("./ChatListContainer"));
 const CallListContainer = lazy(() => import("./CallListContainer"));
-const ArchivedChatListContainer = lazy(() =>
-  import("./ArchivedChatListContainer")
-);
 const StoryListContainer = lazy(() => import("./StoryListContainer"));
 const GroupListContainer = lazy(() => import("./GroupListContainer"));
 
@@ -14,7 +11,7 @@ const Content = () => {
   const { activeTabId } = useSelector((state) => state.uiStates.sidebar);
   switch (activeTabId) {
     case "chat":
-      return <ChatListContainer />;
+      return <ChatListContainer isArchived={false} heading="Chats" />;
     case "call":
       return <CallListContainer />;
     case "story":
@@ -22,7 +19,7 @@ const Content = () => {
     case "group":
       return <GroupListContainer />;
     case "archivedChats":
-      return <ArchivedChatListContainer />;
+      return <ChatListContainer isArchived={true} heading="Archived" />;
     default:
       return <></>;
   }

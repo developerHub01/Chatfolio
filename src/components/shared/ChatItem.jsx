@@ -1,4 +1,4 @@
-import React, { useState, useRef, lazy } from "react";
+import React, { memo } from "react";
 import ChatAvatar from "./ChatAvatar";
 import {
   Button,
@@ -14,31 +14,34 @@ import ChatItemWrapper from "./ChatItemWrapper";
 import { openContextMenu } from "../../redux/slices/uiStatesSlice";
 import { ThreeDotIcon } from "../../constants/icons";
 
-const myUserId = "1";
+const ChatInfo = memo(
+  ({
+    name,
+    lastMessage = "",
+    lastMessageAuthorId,
+    lastMessageAuthorName = "John Doe",
+    isGroup = false,
+  }) => {
+    const { _id: myUserId } =
+      useSelector((state) => state.authStates.user) || {};
+    return (
+      <div className="w-full flex-1 overflow-hidden flex flex-col gap-1">
+        <h3 className="h3 capitalize">{name}</h3>
+        <p className="text max-w-52">
+          {isGroup && (
+            <span className="pr-1">
+              {myUserId === lastMessageAuthorId ? "You" : lastMessageAuthorName}
+              :
+            </span>
+          )}
+          {lastMessage}
+        </p>
+      </div>
+    );
+  }
+);
 
-const ChatInfo = ({
-  name,
-  lastMessage = "",
-  lastMessageAuthorId = "1",
-  lastMessageAuthorName = "John Doe",
-  isGroup = false,
-}) => {
-  return (
-    <div className="w-full flex-1 overflow-hidden flex flex-col gap-1">
-      <h3 className="h3">{name}</h3>
-      <p className="text max-w-52">
-        {isGroup && (
-          <span className="pr-1">
-            {myUserId === lastMessageAuthorId ? "You" : lastMessageAuthorName}:
-          </span>
-        )}
-        {lastMessage}
-      </p>
-    </div>
-  );
-};
-
-const ChatTimeInfo = ({ time = "20/04/24", isArchived = false }) => {
+const ChatTimeInfo = memo(({ time = "20/04/24", isArchived = false }) => {
   return (
     <div className="flex flex-col justify-center items-end gap-2 text-foreground-300">
       <p className="text-xs sm:text-sm">{time}</p>
@@ -49,9 +52,9 @@ const ChatTimeInfo = ({ time = "20/04/24", isArchived = false }) => {
       )}
     </div>
   );
-};
+});
 
-const ChatItemThreeDot = () => {
+const ChatItemThreeDot = memo(() => {
   return (
     <div className="block md:hidden">
       {/* <ChatMenuList /> */}
@@ -84,7 +87,7 @@ const ChatItemThreeDot = () => {
             New file
           </DropdownItem>
           <DropdownItem color="primary" key="new2">
-            New file 1
+            New file
           </DropdownItem>
           <DropdownItem color="primary" key="new3">
             New file
@@ -96,41 +99,52 @@ const ChatItemThreeDot = () => {
       </Dropdown>
     </div>
   );
-};
+});
 
-const ChatItem = ({ id, fullName, avatar }) => {
-  const { activeTabId } = useSelector((state) => state.uiStates.sidebar);
-  const { position } = useSelector((state) => state.uiStates.contextMenu);
-  const dispatch = useDispatch();
-  const isArchived = activeTabId === "archivedChats";
+const ChatItem = memo(
+  ({
+    id,
+    fullName,
+    avatar,
+    isArchived,
+    lastMessage,
+    lastMessageUserId,
+    lastMessageUserName,
+  }) => {
+    // const {} = props;
+    const { activeTabId } = useSelector((state) => state.uiStates.sidebar);
+    const { position } = useSelector((state) => state.uiStates.contextMenu);
+    const dispatch = useDispatch();
+    // const isArchived = activeTabId === "archivedChats";
 
-  const handleContextMenu = (e) => {
-    const { clientX, clientY } = e;
-    dispatch(
-      openContextMenu({
-        position: { clientX, clientY },
-        contextData: {
-          id,
-        },
-      })
+    const handleContextMenu = (e) => {
+      const { clientX, clientY } = e;
+      dispatch(
+        openContextMenu({
+          position: { clientX, clientY },
+          contextData: {
+            id,
+          },
+        })
+      );
+    };
+    return (
+      <ChatItemWrapper onContextMenu={handleContextMenu}>
+        <ChatAvatar src={avatar} />
+        <ChatInfo
+          name={fullName}
+          lastMessage={lastMessage}
+          lastMessageAuthorId={lastMessageUserId}
+          lastMessageAuthorName={lastMessageUserName}
+          isGroup
+        />
+        <ChatTimeInfo isArchived={isArchived} />
+        <span className="block md:hidden">
+          <ChatItemThreeDot />
+        </span>
+      </ChatItemWrapper>
     );
-  };
-  return (
-    <ChatItemWrapper onContextMenu={handleContextMenu}>
-      <ChatAvatar src={avatar} />
-      <ChatInfo
-        name={fullName}
-        lastMessage="Hello"
-        lastMessageAuthorId="1"
-        lastMessageAuthorName="John Doe"
-        isGroup
-      />
-      <ChatTimeInfo isArchived={isArchived} />
-      <span className="block md:hidden">
-        <ChatItemThreeDot />
-      </span>
-    </ChatItemWrapper>
-  );
-};
+  }
+);
 
 export default ChatItem;

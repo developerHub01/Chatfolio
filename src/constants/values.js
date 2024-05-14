@@ -15,6 +15,9 @@ export const UPDATE_USER_INFO_API = `${BASE_URL}/user/updateUserInfo`;
 
 export const SEARCH_CHAT_API = `${BASE_URL}/chat/search-chat`;
 
+export const UNARCHIVED_CHAT_LIST_API = `${BASE_URL}/chat/my-chats?archived=0`;
+export const ARCHIVED_CHAT_LIST_API = `${BASE_URL}/chat/my-chats?archived=1`;
+
 export const GOOGLE_LOGIN_API = `${BASE_URL}/auth/google/callback`;
 export const FACEBOOK_LOGIN_API = `${BASE_URL}/auth/facebook/callback`;
 

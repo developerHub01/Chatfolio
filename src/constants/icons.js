@@ -64,7 +64,9 @@ export {
   GoInbox as InboxIcon,
   GoDot as DotOutlineIcon,
   GoDotFill as DotFillIcon,
+  GoTrash as TrashIcon,
 } from "react-icons/go";
 export { SlSizeFullscreen as ResizeIcon } from "react-icons/sl";
 export { AiOutlineLoading3Quarters as LoaderIcon } from "react-icons/ai";
 export { TbError404 as NotFoundIcon } from "react-icons/tb";
+export { HiOutlinePause as PauseIcon } from "react-icons/hi2";

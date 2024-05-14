@@ -152,6 +152,43 @@ const SearchResultLoadingSkeleton = () => {
   );
 };
 
+const SearchResultItem = ({ resultItem }) => {
+  const { _id, avatar, fullName, name, userName, members = [] } = resultItem;
+  const dispatch = useDispatch();
+  const handleClickSearchItem = (activeChat) => {
+    dispatch(setActiveChatState(activeChat));
+    dispatch(updateSearchResult());
+  };
+  return (
+    <motion.div
+      {...animProps1}
+      className="w-full flex gap-3 items-center hover:bg-background-800 px-2 py-2 sm:py-3 rounded-md cursor-pointer duration-100 transition-all ease-in-out"
+      key={_id || i + 1}
+      onClick={() => handleClickSearchItem(resultItem)}
+    >
+      <Avatar
+        radius="full"
+        src={avatar}
+        name={fullName || name}
+        isBordered
+        color="primary"
+        className="w-12 h-12 flex-shrink-0 flex-grow-0"
+      />
+      <div className="w-full flex flex-col gap-1 overflow-hidden">
+        <h4 className="h4 truncate capitalize">{fullName || name}</h4>
+        <p className="text">
+          {userName ||
+            `${
+              members?.length >= 1000
+                ? `${Number(members?.length?.toFixed(2))} K`
+                : members?.length
+            } members`}
+        </p>
+      </div>
+    </motion.div>
+  );
+};
+
 const SearchResult = () => {
   const {
     activeSearchFilterType,
@@ -160,10 +197,6 @@ const SearchResult = () => {
 
   const dispatch = useDispatch();
 
-  const handleClickSearchItem = (activeChat) => {
-    dispatch(setActiveChatState(activeChat));
-    dispatch(updateSearchResult());
-  };
   const handleChangeFilterType = (type) => () => {
     dispatch(changeFilterType(type));
   };
@@ -207,36 +240,11 @@ const SearchResult = () => {
               found
             </motion.h4>
           )}
-          {chatList.map(
-            ({ _id, avatar, fullName, name, userName, members = [] }, i) => (
-              <motion.div
-                {...animProps1}
-                className="w-full flex gap-3 items-center hover:bg-background-800 px-2 py-2 sm:py-3 rounded-md cursor-pointer duration-100 transition-all ease-in-out"
-                key={_id || i + 1}
-                onClick={() => handleClickSearchItem(chatList[i])}
-              >
-                <Avatar
-                  radius="full"
-                  src={avatar}
-                  name={fullName || name}
-                  isBordered
-                  color="primary"
-                  className="w-12 h-12 flex-shrink-0 flex-grow-0"
-                />
-                <div className="w-full flex flex-col gap-1 overflow-hidden">
-                  <h4 className="h4 truncate capitalize">{fullName || name}</h4>
-                  <p className="text">
-                    {userName ||
-                      `${
-                        members?.length >= 1000
-                          ? `${Number(members?.length?.toFixed(2))} K`
-                          : members?.length
-                      } members`}
-                  </p>
-                </div>
-              </motion.div>
-            )
-          )}
+          {chatList.map((item, i) => (
+            <React.Fragment key={item._id || i}>
+              <SearchResultItem resultItem={item} />
+            </React.Fragment>
+          ))}
           {isLoading && <SearchResultLoadingSkeleton />}
           {isError && (
             <p className="text-center text-lg text-red-500 font-bold">
@@ -306,16 +314,19 @@ const MainListContainerHeader = ({
         {
           searchType: activeSearchType,
           searchTerm,
+          filterType: activeSearchFilterType,
         }
       );
 
       const data = await res.data;
 
+      console.log(data);
+
       dispatch(
         updateSearchResult({
           isLoading: false,
           isError: false,
-          data: data,
+          data: data || [],
         })
       );
     } catch (error) {
