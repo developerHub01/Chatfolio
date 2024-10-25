@@ -38,13 +38,13 @@ const EmptyChat = ({ avatar, fullName, bio }) => {
         scale: 0,
         opacity: 0,
       }}
-      className="w-full h-full flex flex-col gap-2 justify-center items-center"
+      className="w-full h-full flex flex-col gap-2 justify-center items-center p-3"
     >
       <Avatar
         src={avatar}
         isBordered
         color="primary"
-        className="w-28 h-24 sm:h-28 mb-3"
+        className="w-28 h-24 sm:h-28 mb-3 flex-shrink-0"
         fallback={<AvatarIcon className="text-5xl" />}
       />
       <h3
@@ -67,13 +67,13 @@ const ChatContents = () => {
   return (
     <div className="w-full h-auto flex-1 overflow-hidden flex justify-center items-end py-1 relative">
       <ChatBackground />
-      {chatName ? (
-        <ScrollShadow hideScrollBar className="w-full h-full z-0">
+      <ScrollShadow hideScrollBar className="w-full h-full z-0">
+        {chatName ? (
           <p className="whitespace-pre">{message}</p>
-        </ScrollShadow>
-      ) : (
-        <EmptyChat {...activeChat} />
-      )}
+        ) : (
+          <EmptyChat {...activeChat} />
+        )}
+      </ScrollShadow>
     </div>
   );
 };

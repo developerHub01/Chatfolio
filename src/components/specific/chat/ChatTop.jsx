@@ -9,7 +9,7 @@ import {
   SearchIcon,
 } from "../../../constants/icons";
 import { useDispatch, useSelector } from "react-redux";
-import { setActiveChatState } from "../../../redux/slices/activeChatSlice";
+import { setActiveChatPreviewState } from "../../../redux/slices/activeChatSlice";
 
 const buttonList = [
   {
@@ -32,16 +32,24 @@ const buttonList = [
   },
 ];
 
+const generateChatData = (previewChat, activeChat, myId) => {};
+
 const ChatLeft = () => {
-  const { activeChat } = useSelector((state) => state.activeChatStates);
+  const { activeChatPreview, activeChat } =
+    useSelector((state) => state.activeChatStates) || {};
   const dispatch = useDispatch();
-  const handleBack = () => {
-    dispatch(setActiveChatState());
-  };
-  const { fullName, avatar, name: chatName } = activeChat || {};
+  const handleBack = () => dispatch(setActiveChatPreviewState());
+  const {_id: myId} = useSelector((state) => state?.authStates?.user) || {};
+  generateChatData(activeChatPreview, activeChat, myId);
+
+  // const {} = activeChat || {};
+
+  // const { fullName, avatar, name: chatName } = activeChatPreview || {};
+
+  // const fullName = activeChatPreview ? activeChatPreview?.fullName : activeChat?.data?.chatId?.chatType;
   return (
     <div className="flex justify-start items-center gap-3 flex-1">
-      <Button
+      {/* <Button
         isIconOnly
         variant="light"
         size="sm"
@@ -67,7 +75,7 @@ const ChatLeft = () => {
           {fullName || chatName}
         </h3>
         <p className="text-sm max-w-52">Active</p>
-      </div>
+      </div> */}
     </div>
   );
 };

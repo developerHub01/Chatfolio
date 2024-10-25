@@ -16,7 +16,7 @@ import {
 import React, { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { toggleActionIconButton } from "../../redux/slices/uiStatesSlice";
-import { setActiveChatState } from "../../redux/slices/activeChatSlice.js";
+import { setActiveChatPreviewState } from "../../redux/slices/activeChatSlice.js";
 import {
   CloseIcon,
   NotFoundIcon,
@@ -156,7 +156,7 @@ const SearchResultItem = ({ resultItem }) => {
   const { _id, avatar, fullName, name, userName, members = [] } = resultItem;
   const dispatch = useDispatch();
   const handleClickSearchItem = (activeChat) => {
-    dispatch(setActiveChatState(activeChat));
+    dispatch(setActiveChatPreviewState(activeChat));
     dispatch(updateSearchResult());
   };
   return (
@@ -319,8 +319,6 @@ const MainListContainerHeader = ({
       );
 
       const data = await res.data;
-
-      console.log(data);
 
       dispatch(
         updateSearchResult({

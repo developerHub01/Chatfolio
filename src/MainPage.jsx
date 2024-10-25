@@ -6,7 +6,7 @@ import {
 } from "./constants/values";
 import useAuthGet from "./hooks/useAuthGet";
 import { setUserData } from "./redux/slices/userAuthSlice";
-import { setPreferencesState } from "./redux/slices/preferencesSlice";
+import { setPreferencesStates } from "./redux/slices/preferencesSlice";
 import PreviewImage from "./components/popups/PreviewImage";
 import { AnimatePresence } from "framer-motion";
 import LayoutLoader from "./components/loaders/LayoutLoader";
@@ -46,7 +46,7 @@ const MainPage = () => {
       authGet,
       dispatch,
       USER_PREFERENCES_DATA_API,
-      setPreferencesState,
+      setPreferencesStates,
       "data"
     );
     setIsLoading((prev) => false);

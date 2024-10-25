@@ -53,7 +53,7 @@ const SettingPopupWindowContent = () => {
     ({ id }) => id === activeOption
   );
   return (
-    <div className="w-full h-full overflow-hidden p-3 flex flex-col gap-2">
+    <div className="w-full h-full overflow-hidden p-3 flex flex-col gap-2 bg-background-50">
       <h3 className="text-center justify-center items-center text-xl sm:text-2xl font-bold capitalize p-1 text-foreground-100 select-none">
         {activText}
       </h3>

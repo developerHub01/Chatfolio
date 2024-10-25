@@ -1,18 +1,18 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-const initialState = {
+const initialStates = {
   preference: null,
 };
 
 const preferencesSlice = createSlice({
   name: "preferencesSlice",
-  initialState: initialState,
+  initialState: initialStates,
   reducers: {
-    setPreferencesState: (state, action) => {
+    setPreferencesStates: (state, action) => {
       state.preference = action.payload ? action.payload : null;
     },
   },
 });
 
-export const { setPreferencesState } = preferencesSlice.actions;
+export const { setPreferencesStates } = preferencesSlice.actions;
 export default preferencesSlice.reducer;

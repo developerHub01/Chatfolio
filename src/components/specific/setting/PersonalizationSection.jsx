@@ -16,7 +16,7 @@ import {
 import { useDispatch, useSelector } from "react-redux";
 import { motion, AnimatePresence } from "framer-motion";
 import { animProps1 } from "../../animation/animationList";
-import { setPreferencesState } from "../../../redux/slices/preferencesSlice";
+import { setPreferencesStates } from "../../../redux/slices/preferencesSlice";
 import useAuthPatch from "../../../hooks/useAuthPatch";
 import { USER_PREFERENCES_DATA_API } from "../../../constants/values";
 import SettingHeading from "./SettingHeading";
@@ -60,7 +60,7 @@ const ModeSetting = ({ mode, typeOfMode, heading }) => {
     });
     if (!data?.success) return;
 
-    return dispatch(setPreferencesState(data.data));
+    return dispatch(setPreferencesStates(data.data));
   };
 
   return (
@@ -127,7 +127,7 @@ const WallpapperSetting = ({ wallpaper, wallpaperActive }) => {
       return;
     }
 
-    return dispatch(setPreferencesState(data.data));
+    return dispatch(setPreferencesStates(data.data));
   };
   const handleChangeWallpaperActivity = async (value) => {
     const data = await updateMethod(USER_PREFERENCES_DATA_API, {
@@ -135,7 +135,7 @@ const WallpapperSetting = ({ wallpaper, wallpaperActive }) => {
     });
     if (!data?.success) return;
 
-    return dispatch(setPreferencesState(data.data));
+    return dispatch(setPreferencesStates(data.data));
   };
 
   return (
@@ -208,7 +208,7 @@ const WallpaperPositions = ({ heading, wallpaperPosition }) => {
     setIsLoading((prev) => false);
     if (!success) return;
 
-    return dispatch(setPreferencesState(data));
+    return dispatch(setPreferencesStates(data));
   };
   const POSITION_BOX_CLASSES = "w-24 h-24 rounded-md shadow-2xl border-2";
   return (

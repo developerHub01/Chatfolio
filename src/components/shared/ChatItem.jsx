@@ -129,7 +129,7 @@ const ChatItem = memo(
       );
     };
     return (
-      <ChatItemWrapper onContextMenu={handleContextMenu}>
+      <ChatItemWrapper id={id} onContextMenu={handleContextMenu}>
         <ChatAvatar src={avatar} />
         <ChatInfo
           name={fullName}

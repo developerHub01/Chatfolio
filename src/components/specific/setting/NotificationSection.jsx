@@ -13,7 +13,7 @@ import {
 import { useDispatch, useSelector } from "react-redux";
 import useAuthPatch from "../../../hooks/useAuthPatch";
 import { USER_PREFERENCES_DATA_API } from "../../../constants/values";
-import { setPreferencesState } from "../../../redux/slices/preferencesSlice";
+import { setPreferencesStates } from "../../../redux/slices/preferencesSlice";
 import { LoaderIcon, PlayIcon } from "../../../constants/icons";
 import SettingHeading from "./SettingHeading";
 
@@ -82,7 +82,7 @@ const Permissions = ({ messagesNotification, callsNotification }) => {
       ...prev,
       [id]: false,
     }));
-    if (success) return dispatch(setPreferencesState(data));
+    if (success) return dispatch(setPreferencesStates(data));
   };
 
   return (
@@ -144,7 +144,7 @@ const Tones = ({ notificationMessagesTone, notificationGroupsTone }) => {
     });
     if (!success) return;
 
-    return dispatch(setPreferencesState(data));
+    return dispatch(setPreferencesStates(data));
   };
 
   const handlePlayTone = (typeOfTone) => {

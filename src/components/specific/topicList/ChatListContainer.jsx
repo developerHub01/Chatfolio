@@ -55,13 +55,11 @@ const ChatListContainer = ({ isArchived = false, heading = "Chats" }) => {
   const getMethod = useAuthGet();
 
   const URL = isArchived ? ARCHIVED_CHAT_LIST_API : UNARCHIVED_CHAT_LIST_API;
-  console.log(URL);
 
   const getChatList = useCallback(async () => {
     const { success, error, data } = await getMethod(URL);
 
     if (!success) console.log(error.message);
-
     setChatList((prev) => data);
   }, [URL]);
 
@@ -87,7 +85,7 @@ const ChatListContainer = ({ isArchived = false, heading = "Chats" }) => {
             i
           ) => {
             const chatData = {
-              _id,
+              id: _id,
               isArchived,
               chatType,
               avatar,
