@@ -6,7 +6,7 @@ export const emojiApi = "https://emoji-api.com";
 export const SERVER_URL = "http://localhost:3000";
 export const BASE_URL = "http://localhost:3000/api/v1";
 
-export const REGISTER_API = `${BASE_URL}/auth/register`;
+export const REGISTER_API = `${BASE_URL}/user`;
 export const LOGIN_API = `${BASE_URL}/auth/login`;
 export const LOGOUT_API = `${BASE_URL}/auth/logout`;
 export const AUTH_USER_DATA_API = `${BASE_URL}/user/me`;

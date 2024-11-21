@@ -12,7 +12,7 @@ import { SERVER_URL } from "./constants/values";
 
 const App = () => {
   useEffect(() => {
-    const socket = io(SERVER_URL);
+    // const socket = io(SERVER_URL);
   }, []);
 
   return (

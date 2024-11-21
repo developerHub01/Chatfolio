@@ -64,6 +64,9 @@ const ChatContents = () => {
   const { activeChat } = useSelector((state) => state.activeChatStates);
   const { chatName } = activeChat || {};
   const { message } = useSelector((state) => state.uiStates);
+
+  console.log(activeChat);
+
   return (
     <div className="w-full h-auto flex-1 overflow-hidden flex justify-center items-end py-1 relative">
       <ChatBackground />

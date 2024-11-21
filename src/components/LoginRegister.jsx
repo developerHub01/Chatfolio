@@ -48,6 +48,7 @@ const headingAnimProps = {
 const formInitialValues = {
   fullName: "",
   userName: "",
+  emailOrUserName: "",
   email: "",
   password: "",
   gender: "male",
@@ -81,7 +82,7 @@ const LoginRegister = () => {
     e.preventDefault();
 
     if (
-      (isLoginTab && (!formData.email || !formData.password)) ||
+      (isLoginTab && (!formData.emailOrUserName || !formData.password)) ||
       (!isLoginTab &&
         (!formData.fullName ||
           !formData.email ||
@@ -94,7 +95,7 @@ const LoginRegister = () => {
 
     const formDataToSend = isLoginTab
       ? {
-          email: formData.email,
+          emailOrUserName: formData.emailOrUserName,
           password: formData.password,
         }
       : formData;
@@ -104,8 +105,8 @@ const LoginRegister = () => {
       isLoginTab ? LOGIN_API : REGISTER_API,
       formDataToSend
     );
-
-    const { success: isSuccess, user } = data;
+    
+    const { success: isSuccess, data: user } = data;
 
     // If successfully loggedin
     if (isLoginTab && isSuccess) return dispatch(setUserData(user));
@@ -161,12 +162,12 @@ const LoginRegister = () => {
         <motion.div
           {...headingAnimProps}
           whileHover={{
-            scale: 1.05,
+            scale: 1.08,
           }}
           whileTap={{
             scale: 1.05,
           }}
-          className="w-full max-w-md max-h-[90vh] flex flex-col justify-center items-center gap-4 text-foreground-300 shadow-2xl px-4 sm:px-5 py-6 sm:py-8 rounded-md bg-background-900 backdrop-blur-xl overflow-hidden"
+          className="w-full max-w-md max-h-[90vh] flex flex-col justify-center items-center gap-4 text-foreground-300 shadow-2xl px-4 sm:px-5 py-6 sm:py-8 rounded-md bg-background-900 overflow-hidden z-10"
         >
           <div className="w-full h-14 overflow-hidden flex flex-col justify-center items-center">
             {isLoginTab ? (
@@ -210,6 +211,21 @@ const LoginRegister = () => {
                         color="primary"
                         name="fullName"
                         value={formData["fullName"]}
+                        onChange={handleChange}
+                        required
+                      />
+                    </motion.div>
+                    <motion.div {...inputAnimProps} className="w-full">
+                      <Input
+                        type="email"
+                        variant="bordered"
+                        placeholder="Email address"
+                        className="w-full"
+                        size="md"
+                        radius="sm"
+                        color="primary"
+                        value={formData["email"]}
+                        name="email"
                         onChange={handleChange}
                         required
                       />
@@ -264,19 +280,21 @@ const LoginRegister = () => {
                   </>
                 )}
               </AnimatePresence>
-              <Input
-                type="email"
-                variant="bordered"
-                placeholder="Email address"
-                className="w-full"
-                size="md"
-                radius="sm"
-                color="primary"
-                value={formData["email"]}
-                name="email"
-                onChange={handleChange}
-                required
-              />
+              {isLoginTab && (
+                <Input
+                  type="text"
+                  variant="bordered"
+                  placeholder="Email address or username"
+                  className="w-full"
+                  size="md"
+                  radius="sm"
+                  color="primary"
+                  value={formData["emailOrUserName"]}
+                  name="emailOrUserName"
+                  onChange={handleChange}
+                  required
+                />
+              )}
               <Input
                 type={isPasswordVisible ? "text" : "password"}
                 variant="bordered"

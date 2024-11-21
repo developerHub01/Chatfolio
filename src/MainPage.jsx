@@ -16,8 +16,12 @@ const LoginRegister = lazy(() => import("./components/LoginRegister"));
 const fetchUser = async (getData, dispatch, api, setData, data) => {
   try {
     const responseData = await getData(api);
+
+    console.log(responseData);
+    
+
     return responseData.success
-      ? dispatch(setData(responseData[data]))
+      ? dispatch(setData(responseData["data"]))
       : dispatch(setData(null));
   } catch (error) {
     return error;
@@ -33,6 +37,7 @@ const MainPage = () => {
 
   useEffect(() => {
     setIsLoading((prev) => true);
+
     fetchUser(authGet, dispatch, AUTH_USER_DATA_API, setUserData, "user");
   }, []);
   useEffect(() => {
